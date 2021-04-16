@@ -6,7 +6,7 @@
 		<OutputType>WinExe</OutputType>
 		<RootNamespace>Mesen.GUI</RootNamespace>
 		<AssemblyName>Mesen-S</AssemblyName>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFramework>net6.0-windows</TargetFramework>
 		<Platforms>AnyCPU;x64;x86;ARM64</Platforms>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<ApplicationRevision>0</ApplicationRevision>
@@ -17,11 +17,8 @@
 		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 		<UseWindowsForms>true</UseWindowsForms>
 		<Deterministic>false</Deterministic>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Platform)' == 'ARM64'">
-		<TargetFramework>net6.0-windows</TargetFramework>
-		<RuntimeIdentifier>win10-arm64</RuntimeIdentifier>
+		<RuntimeIdentifier>win10-$(Platform.ToLower())</RuntimeIdentifier>
+		<!--<RuntimeIdentifier>win10-arm64</RuntimeIdentifier>-->
 		<PublishSingleFile>true</PublishSingleFile>
 		<SelfContained>false</SelfContained>
 		<PublishReadyToRun>true</PublishReadyToRun>
