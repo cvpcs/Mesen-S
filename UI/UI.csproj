@@ -1309,7 +1309,9 @@
 			if NOT "PGO Optimize" == "$(Configuration)" (
 				copy "$(SolutionDir)bin\$(Platform)\$(Configuration)\MesenSCore.dll" "Dependencies\MesenSCore.$(Platform).dll"
 			)
-			copy "MesenUpdater.exe" "Dependencies\MesenUpdater.exe"
+			if NOT "ARM64" == "$(Platform)" (
+				copy "MesenUpdater.exe" "Dependencies\MesenUpdater.exe"
+			)
 			call "$(SolutionDir)bin\AnyCPU\$(Configuration)\DependencyPacker.exe
 		</PreBuildEvent>
 	</PropertyGroup>

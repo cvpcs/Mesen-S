@@ -7,7 +7,7 @@
 		<RootNamespace>MesenUpdater</RootNamespace>
 		<AssemblyName>MesenUpdater</AssemblyName>
 		<TargetFramework>net45</TargetFramework>
-		<Platforms>AnyCPU;x64;x86;ARM64</Platforms>
+		<Platforms>AnyCPU;x64;x86</Platforms>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<OutputPath>..\bin\$(Platform)\$(Configuration)</OutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
