@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Mesen.GUI.Config;
 using System.IO.Compression;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace Mesen.GUI
 {
@@ -92,12 +93,12 @@ namespace Mesen.GUI
 			Directory.CreateDirectory(Path.Combine(ConfigManager.HomeFolder, "Resources"));
 
 			ZipArchive zip = new ZipArchive(Assembly.GetExecutingAssembly().GetManifestResourceStream("Mesen.GUI.Dependencies.Dependencies.zip"));
-						
+
 			//Extract all needed files
-			string suffix = IntPtr.Size == 4 ? ".x86" : ".x64";
+			string suffix = IntPtr.Size == 4 ? @"\.(x86|arm)" : @"\.(x64|arm64)";
 			foreach(ZipArchiveEntry entry in zip.Entries) {
-				if(entry.Name.StartsWith("MesenSCore") && !Program.IsMono && entry.Name.Contains(suffix)) {
-					string outputFilename = Path.Combine(ConfigManager.HomeFolder, entry.Name.Replace(suffix, ""));
+				if(entry.Name.StartsWith("MesenSCore") && !Program.IsMono && Regex.IsMatch(entry.Name, suffix, RegexOptions.IgnoreCase)) {
+					string outputFilename = Path.Combine(ConfigManager.HomeFolder, Regex.Replace(entry.Name, suffix, string.Empty, RegexOptions.IgnoreCase));
 					ExtractFile(entry, outputFilename);					
 				} else if(entry.Name.StartsWith("libMesenSCore") && Program.IsMono && entry.Name.Contains(suffix)) {
 					string outputFilename = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), entry.Name.Replace(suffix, ""));
