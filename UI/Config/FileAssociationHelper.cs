@@ -115,7 +115,7 @@ namespace Mesen.GUI.Config
 				content += "MimeType=" + string.Join(";", mimeTypes.Select(type => "application/" + type)) + Environment.NewLine;
 			}
 			content +=
-				"Exec=mono " + System.Reflection.Assembly.GetEntryAssembly().Location + " %f" + Environment.NewLine +
+				"Exec=mono " + AppContext.BaseDirectory + " %f" + Environment.NewLine +
 				"NoDisplay=false" + Environment.NewLine +
 				"StartupNotify=true" + Environment.NewLine +
 				"Icon=MesenSIcon" + Environment.NewLine;

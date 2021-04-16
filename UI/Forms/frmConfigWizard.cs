@@ -74,8 +74,8 @@ namespace Mesen.GUI.Forms
 					string linkPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "Mesen-S.lnk");
 					var lnk = shell.CreateShortcut(linkPath);
 					try {
-						lnk.TargetPath = Assembly.GetEntryAssembly().Location;
-						lnk.IconLocation = Assembly.GetEntryAssembly().Location + ", 0";
+						lnk.TargetPath = AppContext.BaseDirectory;
+						lnk.IconLocation = AppContext.BaseDirectory + ", 0";
 						lnk.Save();
 					} finally {
 						Marshal.FinalReleaseComObject(lnk);

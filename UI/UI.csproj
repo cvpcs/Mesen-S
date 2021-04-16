@@ -6,7 +6,7 @@
 		<OutputType>WinExe</OutputType>
 		<RootNamespace>Mesen.GUI</RootNamespace>
 		<AssemblyName>Mesen-S</AssemblyName>
-		<TargetFramework>net45</TargetFramework>
+		<TargetFramework>netstandard2.0</TargetFramework>
 		<Platforms>AnyCPU;x64;x86;ARM64</Platforms>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<ApplicationRevision>0</ApplicationRevision>
@@ -19,10 +19,17 @@
 		<Deterministic>false</Deterministic>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<Reference Include="System.IO.Compression" />
-		<Reference Include="Microsoft.CSharp" />
-	</ItemGroup>
+	<PropertyGroup Condition="'$(Platform)' == 'ARM64'">
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<RuntimeIdentifier>win10-arm64</RuntimeIdentifier>
+		<PublishSingleFile>true</PublishSingleFile>
+		<SelfContained>false</SelfContained>
+		<PublishReadyToRun>true</PublishReadyToRun>
+	</PropertyGroup>
+
+	<Target Name="PublishOnBuild" AfterTargets="Build" Condition="'$(PublishSingleFile)' == 'true'">
+		<CallTarget Targets="Publish" />
+	</Target>
 	
 	<ItemGroup>
 		<Compile Include="Config\AudioConfig.cs" />
@@ -45,32 +52,22 @@
 		<Compile Include="Config\EmulationConfig.cs" />
 		<Compile Include="Config\NetplayConfig.cs" />
 		<Compile Include="Config\VideoConfig.cs" />
-		<Compile Include="Controls\ctrlLinkLabel.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Include="Controls\ctrlRecentGame.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Controls\ctrlLinkLabel.cs" />
+		<Compile Include="Controls\ctrlRecentGame.cs" />
 		<Compile Include="Controls\ctrlRecentGame.Designer.cs">
 			<DependentUpon>ctrlRecentGame.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Controls\ctrlRecentGames.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Controls\ctrlRecentGames.cs" />
 		<Compile Include="Controls\ctrlRecentGames.Designer.cs">
 			<DependentUpon>ctrlRecentGames.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Debugger\Breakpoints\Breakpoint.cs" />
 		<Compile Include="Debugger\Breakpoints\BreakpointManager.cs" />
-		<Compile Include="Debugger\Breakpoints\ctrlBreakpoints.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Breakpoints\ctrlBreakpoints.cs" />
 		<Compile Include="Debugger\Breakpoints\ctrlBreakpoints.Designer.cs">
 			<DependentUpon>ctrlBreakpoints.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Breakpoints\frmBreakpoint.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\Breakpoints\frmBreakpoint.cs" />
 		<Compile Include="Debugger\Breakpoints\frmBreakpoint.Designer.cs">
 			<DependentUpon>frmBreakpoint.cs</DependentUpon>
 		</Compile>
@@ -104,219 +101,147 @@
 		<Compile Include="Debugger\Config\RegisterViewerConfig.cs" />
 		<Compile Include="Debugger\Config\TileViewerConfig.cs" />
 		<Compile Include="Debugger\Config\TilemapViewerConfig.cs" />
-		<Compile Include="Debugger\Controls\ctrlCx4Status.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Controls\ctrlCx4Status.cs" />
 		<Compile Include="Debugger\Controls\ctrlCx4Status.Designer.cs">
 			<DependentUpon>ctrlCx4Status.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Controls\ctrlMemoryMapping.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Include="Debugger\Controls\ctrlNecDspStatus.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Controls\ctrlMemoryMapping.cs" />
+		<Compile Include="Debugger\Controls\ctrlNecDspStatus.cs" />
 		<Compile Include="Debugger\Controls\ctrlNecDspStatus.Designer.cs">
 			<DependentUpon>ctrlNecDspStatus.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Controls\ctrlMemoryType.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Include="Debugger\Controls\ctrlGameboyStatus.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Controls\ctrlMemoryType.cs" />
+		<Compile Include="Debugger\Controls\ctrlGameboyStatus.cs" />
 		<Compile Include="Debugger\Controls\ctrlGameboyStatus.Designer.cs">
 			<DependentUpon>ctrlGameboyStatus.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\frmDebugLog.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\frmDebugLog.cs" />
 		<Compile Include="Debugger\frmDebugLog.Designer.cs">
 			<DependentUpon>frmDebugLog.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Debugger\Integration\RgbdsSymbolFile.cs" />
 		<Compile Include="Debugger\Integration\BassLabelFile.cs" />
-		<Compile Include="Debugger\MemoryTools\ctrlMemoryAccessCounters.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\MemoryTools\ctrlMemoryAccessCounters.cs" />
 		<Compile Include="Debugger\MemoryTools\ctrlMemoryAccessCounters.Designer.cs">
 			<DependentUpon>ctrlMemoryAccessCounters.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Controls\ctrlPanel.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Include="Debugger\Controls\ctrlPpuStatus.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Controls\ctrlPanel.cs" />
+		<Compile Include="Debugger\Controls\ctrlPpuStatus.cs" />
 		<Compile Include="Debugger\Controls\ctrlPpuStatus.Designer.cs">
 			<DependentUpon>ctrlPpuStatus.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Controls\ctrlGsuStatus.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Controls\ctrlGsuStatus.cs" />
 		<Compile Include="Debugger\Controls\ctrlGsuStatus.Designer.cs">
 			<DependentUpon>ctrlGsuStatus.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Controls\ctrlSearchResult.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Controls\ctrlSearchResult.cs" />
 		<Compile Include="Debugger\Controls\ctrlSearchResult.Designer.cs">
 			<DependentUpon>ctrlSearchResult.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Controls\ctrlSpcStatus.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Controls\ctrlSpcStatus.cs" />
 		<Compile Include="Debugger\Controls\ctrlSpcStatus.Designer.cs">
 			<DependentUpon>ctrlSpcStatus.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\EventViewer\ctrlEventViewerFilters.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\EventViewer\ctrlEventViewerFilters.cs" />
 		<Compile Include="Debugger\EventViewer\ctrlEventViewerFilters.Designer.cs">
 			<DependentUpon>ctrlEventViewerFilters.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\EventViewer\ctrlEventViewerListView.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\EventViewer\ctrlEventViewerListView.cs" />
 		<Compile Include="Debugger\EventViewer\ctrlEventViewerListView.Designer.cs">
 			<DependentUpon>ctrlEventViewerListView.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\frmAssembler.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\frmAssembler.cs" />
 		<Compile Include="Debugger\frmAssembler.Designer.cs">
 			<DependentUpon>frmAssembler.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\frmBreakIn.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\frmBreakIn.cs" />
 		<Compile Include="Debugger\frmBreakIn.Designer.cs">
 			<DependentUpon>frmBreakIn.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\frmBreakOn.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\frmBreakOn.cs" />
 		<Compile Include="Debugger\frmBreakOn.Designer.cs">
 			<DependentUpon>frmBreakOn.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\frmDebuggerColors.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\frmDebuggerColors.cs" />
 		<Compile Include="Debugger\frmDebuggerColors.Designer.cs">
 			<DependentUpon>frmDebuggerColors.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\frmGoToAll.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\frmGoToAll.cs" />
 		<Compile Include="Debugger\frmGoToAll.Designer.cs">
 			<DependentUpon>frmGoToAll.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Debugger\Integration\DbgImporter.cs" />
-		<Compile Include="Debugger\Integration\frmIntegrationSettings.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\Integration\frmIntegrationSettings.cs" />
 		<Compile Include="Debugger\Integration\frmIntegrationSettings.Designer.cs">
 			<DependentUpon>frmIntegrationSettings.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Debugger\Integration\ISymbolProvider.cs" />
 		<Compile Include="Debugger\Integration\WlaDxImporter.cs" />
 		<Compile Include="Debugger\Labels\CodeLabel.cs" />
-		<Compile Include="Debugger\Labels\ctrlLabelList.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Labels\ctrlLabelList.cs" />
 		<Compile Include="Debugger\Labels\ctrlLabelList.Designer.cs">
 			<DependentUpon>ctrlLabelList.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Labels\frmEditLabel.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\Labels\frmEditLabel.cs" />
 		<Compile Include="Debugger\Labels\frmEditLabel.Designer.cs">
 			<DependentUpon>frmEditLabel.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Debugger\Labels\LabelManager.cs" />
 		<Compile Include="Debugger\Labels\MslLabelFile.cs" />
-		<Compile Include="Debugger\PpuViewer\ctrlImagePanel.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\PpuViewer\ctrlImagePanel.cs" />
 		<Compile Include="Debugger\PpuViewer\ctrlImagePanel.Designer.cs">
 			<DependentUpon>ctrlImagePanel.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\PpuViewer\ctrlImageViewer.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Include="Debugger\PpuViewer\ctrlPropertyList.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\PpuViewer\ctrlImageViewer.cs" />
+		<Compile Include="Debugger\PpuViewer\ctrlPropertyList.cs" />
 		<Compile Include="Debugger\PpuViewer\ctrlPropertyList.Designer.cs">
 			<DependentUpon>ctrlPropertyList.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\PpuViewer\ctrlSpriteList.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\PpuViewer\ctrlSpriteList.cs" />
 		<Compile Include="Debugger\PpuViewer\ctrlSpriteList.Designer.cs">
 			<DependentUpon>ctrlSpriteList.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\PpuViewer\frmSpriteViewer.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\PpuViewer\frmSpriteViewer.cs" />
 		<Compile Include="Debugger\PpuViewer\frmSpriteViewer.Designer.cs">
 			<DependentUpon>frmSpriteViewer.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\PpuViewer\frmRegisterViewer.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\PpuViewer\frmRegisterViewer.cs" />
 		<Compile Include="Debugger\PpuViewer\frmRegisterViewer.Designer.cs">
 			<DependentUpon>frmRegisterViewer.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Debugger\PpuViewer\SpriteInfo.cs" />
 		<Compile Include="Debugger\PpuViewer\WindowRefreshManager.cs" />
-		<Compile Include="Debugger\Profiler\ctrlProfiler.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Profiler\ctrlProfiler.cs" />
 		<Compile Include="Debugger\Profiler\ctrlProfiler.Designer.cs">
 			<DependentUpon>ctrlProfiler.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Profiler\frmProfiler.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\Profiler\frmProfiler.cs" />
 		<Compile Include="Debugger\Profiler\frmProfiler.Designer.cs">
 			<DependentUpon>frmProfiler.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\AutocompleteItem.cs" />
-		<Compile Include="Debugger\Scripts\FastColoredTextBox\AutocompleteMenu.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Scripts\FastColoredTextBox\AutocompleteMenu.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\Bookmarks.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\Char.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\CommandManager.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\Commands.cs" />
-		<Compile Include="Debugger\Scripts\FastColoredTextBox\DocumentMap.cs">
-			<SubType>Component</SubType>
-		</Compile>
+		<Compile Include="Debugger\Scripts\FastColoredTextBox\DocumentMap.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\EncodingDetector.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\ExportToHTML.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\ExportToRTF.cs" />
-		<Compile Include="Debugger\Scripts\FastColoredTextBox\FastColoredTextBox.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Scripts\FastColoredTextBox\FastColoredTextBox.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\FileTextSource.cs" />
-		<Compile Include="Debugger\Scripts\FastColoredTextBox\FindForm.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\Scripts\FastColoredTextBox\FindForm.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\FindForm.designer.cs">
 			<DependentUpon>FindForm.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Scripts\FastColoredTextBox\GoToForm.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\Scripts\FastColoredTextBox\GoToForm.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\GoToForm.designer.cs">
 			<DependentUpon>GoToForm.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\Hints.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\Hotkeys.cs" />
-		<Compile Include="Debugger\Scripts\FastColoredTextBox\HotkeysEditorForm.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\Scripts\FastColoredTextBox\HotkeysEditorForm.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\HotkeysEditorForm.designer.cs">
 			<DependentUpon>HotkeysEditorForm.cs</DependentUpon>
 		</Compile>
@@ -330,15 +255,11 @@
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\Place.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\PlatformType.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\Range.cs" />
-		<Compile Include="Debugger\Scripts\FastColoredTextBox\ReplaceForm.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\Scripts\FastColoredTextBox\ReplaceForm.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\ReplaceForm.designer.cs">
 			<DependentUpon>ReplaceForm.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Scripts\FastColoredTextBox\Ruler.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Scripts\FastColoredTextBox\Ruler.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\Ruler.designer.cs">
 			<DependentUpon>Ruler.cs</DependentUpon>
 		</Compile>
@@ -347,19 +268,13 @@
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\SyntaxHighlighter.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\TextSource.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\TypeDescriptor.cs" />
-		<Compile Include="Debugger\Scripts\FastColoredTextBox\UnfocusablePanel.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Scripts\FastColoredTextBox\UnfocusablePanel.cs" />
 		<Compile Include="Debugger\Scripts\FastColoredTextBox\VisualMarker.cs" />
-		<Compile Include="Debugger\Scripts\frmScript.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\Scripts\frmScript.cs" />
 		<Compile Include="Debugger\Scripts\frmScript.Designer.cs">
 			<DependentUpon>frmScript.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Tooltips\ctrlTooltip.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Tooltips\ctrlTooltip.cs" />
 		<Compile Include="Debugger\Tooltips\ctrlTooltip.Designer.cs">
 			<DependentUpon>ctrlTooltip.cs</DependentUpon>
 		</Compile>
@@ -369,222 +284,138 @@
 		<Compile Include="Config\RecentItems.cs" />
 		<Compile Include="Debugger\Config\TraceLoggerInfo.cs" />
 		<Compile Include="Debugger\Config\DebugInfo.cs" />
-		<Compile Include="Controls\BaseControl.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
-		<Compile Include="Controls\ctrlAutoGrowLabel.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Include="Controls\ctrlHorizontalTrackbar.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Controls\BaseControl.cs" />
+		<Compile Include="Controls\ctrlAutoGrowLabel.cs" />
+		<Compile Include="Controls\ctrlHorizontalTrackbar.cs" />
 		<Compile Include="Controls\ctrlHorizontalTrackbar.Designer.cs">
 			<DependentUpon>ctrlHorizontalTrackbar.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Controls\ctrlLoadingRom.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Controls\ctrlLoadingRom.cs" />
 		<Compile Include="Controls\ctrlLoadingRom.Designer.cs">
 			<DependentUpon>ctrlLoadingRom.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Controls\ctrlMesenContextMenuStrip.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Include="Controls\ctrlMesenMenuStrip.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Include="Controls\ctrlMesenPictureBox.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Include="Controls\ctrlMesenToolStrip.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Include="Controls\ctrlPathSelection.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Controls\ctrlMesenContextMenuStrip.cs" />
+		<Compile Include="Controls\ctrlMesenMenuStrip.cs" />
+		<Compile Include="Controls\ctrlMesenPictureBox.cs" />
+		<Compile Include="Controls\ctrlMesenToolStrip.cs" />
+		<Compile Include="Controls\ctrlPathSelection.cs" />
 		<Compile Include="Controls\ctrlPathSelection.Designer.cs">
 			<DependentUpon>ctrlPathSelection.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Controls\MesenNumericUpDown.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
-		<Compile Include="Controls\ctrlRiskyOption.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Controls\MesenNumericUpDown.cs" />
+		<Compile Include="Controls\ctrlRiskyOption.cs" />
 		<Compile Include="Controls\ctrlRiskyOption.Designer.cs">
 			<DependentUpon>ctrlRiskyOption.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Controls\ctrlSplitContainer.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Include="Controls\ctrlTrackbar.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Controls\ctrlSplitContainer.cs" />
+		<Compile Include="Controls\ctrlTrackbar.cs" />
 		<Compile Include="Controls\ctrlTrackbar.Designer.cs">
 			<DependentUpon>ctrlTrackbar.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Controls\ctrlRenderer.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Controls\ctrlRenderer.cs" />
 		<Compile Include="Controls\ctrlRenderer.Designer.cs">
 			<DependentUpon>ctrlRenderer.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Controls\MyListView.cs">
-			<SubType>Component</SubType>
-		</Compile>
+		<Compile Include="Controls\MyListView.cs" />
 		<Compile Include="Debugger\CodeLineData.cs" />
-		<Compile Include="Debugger\Controls\ComboBoxWithSeparator.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Include="Debugger\Controls\ctrlCallstack.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Controls\ComboBoxWithSeparator.cs" />
+		<Compile Include="Debugger\Controls\ctrlCallstack.cs" />
 		<Compile Include="Debugger\Controls\ctrlCallstack.Designer.cs">
 			<DependentUpon>ctrlCallstack.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Controls\ctrlColorPicker.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Include="Debugger\Controls\ctrlCpuStatus.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Controls\ctrlColorPicker.cs" />
+		<Compile Include="Debugger\Controls\ctrlCpuStatus.cs" />
 		<Compile Include="Debugger\Controls\ctrlCpuStatus.Designer.cs">
 			<DependentUpon>ctrlCpuStatus.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Controls\ctrlDbgShortcuts.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Controls\ctrlDbgShortcuts.cs" />
 		<Compile Include="Debugger\Controls\ctrlDbgShortcuts.Designer.cs">
 			<DependentUpon>ctrlDbgShortcuts.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Controls\ctrlDisassemblyView.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Controls\ctrlDisassemblyView.cs" />
 		<Compile Include="Debugger\Controls\ctrlDisassemblyView.Designer.cs">
 			<DependentUpon>ctrlDisassemblyView.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Debugger\MemoryTools\ByteColorProvider.cs" />
-		<Compile Include="Debugger\MemoryTools\ctrlHexViewer.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\MemoryTools\ctrlHexViewer.cs" />
 		<Compile Include="Debugger\MemoryTools\ctrlHexViewer.Designer.cs">
 			<DependentUpon>ctrlHexViewer.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Controls\ctrlWatch.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Controls\ctrlWatch.cs" />
 		<Compile Include="Debugger\Controls\ctrlWatch.Designer.cs">
 			<DependentUpon>ctrlWatch.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\EventViewer\ctrlEventViewerPpuView.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\EventViewer\ctrlEventViewerPpuView.cs" />
 		<Compile Include="Debugger\EventViewer\ctrlEventViewerPpuView.Designer.cs">
 			<DependentUpon>ctrlEventViewerPpuView.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\EventViewer\frmEventViewer.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\EventViewer\frmEventViewer.cs" />
 		<Compile Include="Debugger\EventViewer\frmEventViewer.Designer.cs">
 			<DependentUpon>frmEventViewer.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\frmDbgPreferences.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\frmDbgPreferences.cs" />
 		<Compile Include="Debugger\frmDbgPreferences.Designer.cs">
 			<DependentUpon>frmDbgPreferences.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\frmDbgShortcutGetKey.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\frmDbgShortcutGetKey.cs" />
 		<Compile Include="Debugger\frmDbgShortcutGetKey.Designer.cs">
 			<DependentUpon>frmDbgShortcutGetKey.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Controls\ctrlCodeScrollbar.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Include="Debugger\Controls\ctrlTextbox.cs">
-			<SubType>Component</SubType>
-		</Compile>
+		<Compile Include="Debugger\Controls\ctrlCodeScrollbar.cs" />
+		<Compile Include="Debugger\Controls\ctrlTextbox.cs" />
 		<Compile Include="Debugger\Controls\ctrlTextbox.Designer.cs">
 			<DependentUpon>ctrlTextbox.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\Controls\ctrlScrollableTextbox.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\Controls\ctrlScrollableTextbox.cs" />
 		<Compile Include="Debugger\Controls\ctrlScrollableTextbox.Designer.cs">
 			<DependentUpon>ctrlScrollableTextbox.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Debugger\FontDialogHelper.cs" />
-		<Compile Include="Debugger\frmDebugger.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\frmDebugger.cs" />
 		<Compile Include="Debugger\frmDebugger.Designer.cs">
 			<DependentUpon>frmDebugger.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\MemoryTools\frmFadeSpeed.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\MemoryTools\frmFadeSpeed.cs" />
 		<Compile Include="Debugger\MemoryTools\frmFadeSpeed.Designer.cs">
 			<DependentUpon>frmFadeSpeed.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\frmGoToLine.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\frmGoToLine.cs" />
 		<Compile Include="Debugger\frmGoToLine.Designer.cs">
 			<DependentUpon>frmGoToLine.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\MemoryTools\frmMemoryTools.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\MemoryTools\frmMemoryTools.cs" />
 		<Compile Include="Debugger\MemoryTools\frmMemoryTools.Designer.cs">
 			<DependentUpon>frmMemoryTools.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Debugger\GraphicsExtensions.cs" />
-		<Compile Include="Debugger\MemoryTools\frmMemoryViewerColors.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\MemoryTools\frmMemoryViewerColors.cs" />
 		<Compile Include="Debugger\MemoryTools\frmMemoryViewerColors.Designer.cs">
 			<DependentUpon>frmMemoryViewerColors.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Debugger\MemoryTools\TblByteCharConverter.cs" />
-		<Compile Include="Debugger\PpuViewer\ctrlPaletteViewer.cs">
-			<SubType>Component</SubType>
-		</Compile>
-		<Compile Include="Debugger\PpuViewer\ctrlScanlineCycleSelect.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Debugger\PpuViewer\ctrlPaletteViewer.cs" />
+		<Compile Include="Debugger\PpuViewer\ctrlScanlineCycleSelect.cs" />
 		<Compile Include="Debugger\PpuViewer\ctrlScanlineCycleSelect.Designer.cs">
 			<DependentUpon>ctrlScanlineCycleSelect.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\PpuViewer\frmPaletteViewer.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\PpuViewer\frmPaletteViewer.cs" />
 		<Compile Include="Debugger\PpuViewer\frmPaletteViewer.Designer.cs">
 			<DependentUpon>frmPaletteViewer.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\PpuViewer\frmTileViewer.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\PpuViewer\frmTileViewer.cs" />
 		<Compile Include="Debugger\PpuViewer\frmTileViewer.Designer.cs">
 			<DependentUpon>frmTileViewer.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\PpuViewer\frmTilemapViewer.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\PpuViewer\frmTilemapViewer.cs" />
 		<Compile Include="Debugger\PpuViewer\frmTilemapViewer.Designer.cs">
 			<DependentUpon>frmTilemapViewer.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Debugger\frmTraceLogger.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Debugger\frmTraceLogger.cs" />
 		<Compile Include="Debugger\frmTraceLogger.Designer.cs">
 			<DependentUpon>frmTraceLogger.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Debugger\Controls\TextboxHistory.cs" />
-		<Compile Include="Debugger\HexBox\BuiltInContextMenu.cs">
-			<SubType>Component</SubType>
-		</Compile>
+		<Compile Include="Debugger\HexBox\BuiltInContextMenu.cs" />
 		<Compile Include="Debugger\HexBox\ByteCharConverters.cs" />
 		<Compile Include="Debugger\HexBox\ByteCollection.cs" />
 		<Compile Include="Debugger\HexBox\BytePositionInfo.cs" />
@@ -593,9 +424,7 @@
 		<Compile Include="Debugger\HexBox\DynamicByteProvider.cs" />
 		<Compile Include="Debugger\HexBox\FileDataBlock.cs" />
 		<Compile Include="Debugger\HexBox\FindOptions.cs" />
-		<Compile Include="Debugger\HexBox\HexBox.cs">
-			<SubType>Component</SubType>
-		</Compile>
+		<Compile Include="Debugger\HexBox\HexBox.cs" />
 		<Compile Include="Debugger\HexBox\HexCasing.cs" />
 		<Compile Include="Debugger\HexBox\IByteColorProvider.cs" />
 		<Compile Include="Debugger\HexBox\IByteProvider.cs" />
@@ -613,176 +442,114 @@
 		<Compile Include="Forms\BaseConfigForm.Designer.cs">
 			<DependentUpon>BaseConfigForm.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\BaseForm.cs">
-			<SubType>Form</SubType>
-		</Compile>
-		<Compile Include="Forms\BaseConfigForm.cs">
-			<SubType>Form</SubType>
-		</Compile>
-		<Compile Include="Forms\BaseInputForm.cs">
-			<SubType>Form</SubType>
-		</Compile>
-		<Compile Include="Forms\Config\Controllers\BaseInputConfigControl.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
-		<Compile Include="Forms\Config\Controllers\BaseInputConfigForm.cs">
-			<SubType>Form</SubType>
-		</Compile>
-		<Compile Include="Forms\Config\ctrlEmulatorShortcuts.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Forms\BaseForm.cs" />
+		<Compile Include="Forms\BaseConfigForm.cs" />
+		<Compile Include="Forms\BaseInputForm.cs" />
+		<Compile Include="Forms\Config\Controllers\BaseInputConfigControl.cs" />
+		<Compile Include="Forms\Config\Controllers\BaseInputConfigForm.cs" />
+		<Compile Include="Forms\Config\ctrlEmulatorShortcuts.cs" />
 		<Compile Include="Forms\Config\ctrlEmulatorShortcuts.Designer.cs">
 			<DependentUpon>ctrlEmulatorShortcuts.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\Config\Controllers\ctrlKeyBindingHint.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Forms\Config\Controllers\ctrlKeyBindingHint.cs" />
 		<Compile Include="Forms\Config\Controllers\ctrlKeyBindingHint.Designer.cs">
 			<DependentUpon>ctrlKeyBindingHint.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\Config\Controllers\ctrlStandardController.cs">
-			<SubType>UserControl</SubType>
-		</Compile>
+		<Compile Include="Forms\Config\Controllers\ctrlStandardController.cs" />
 		<Compile Include="Forms\Config\Controllers\ctrlStandardController.Designer.cs">
 			<DependentUpon>ctrlStandardController.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\Config\frmAudioConfig.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\Config\frmAudioConfig.cs" />
 		<Compile Include="Forms\Config\frmAudioConfig.Designer.cs">
 			<DependentUpon>frmAudioConfig.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\Config\Controllers\frmControllerConfig.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\Config\Controllers\frmControllerConfig.cs" />
 		<Compile Include="Forms\Config\Controllers\frmControllerConfig.Designer.cs">
 			<DependentUpon>frmControllerConfig.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\Config\frmCopyFiles.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\Config\frmCopyFiles.cs" />
 		<Compile Include="Forms\Config\frmCopyFiles.Designer.cs">
 			<DependentUpon>frmCopyFiles.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\Config\frmGameboyConfig.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\Config\frmGameboyConfig.cs" />
 		<Compile Include="Forms\Config\frmGameboyConfig.Designer.cs">
 			<DependentUpon>frmGameboyConfig.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\Config\frmInputConfig.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\Config\frmInputConfig.cs" />
 		<Compile Include="Forms\Config\frmInputConfig.Designer.cs">
 			<DependentUpon>frmInputConfig.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\Config\frmEmulationConfig.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\Config\frmEmulationConfig.cs" />
 		<Compile Include="Forms\Config\frmEmulationConfig.Designer.cs">
 			<DependentUpon>frmEmulationConfig.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\Config\frmGetKey.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\Config\frmGetKey.cs" />
 		<Compile Include="Forms\Config\frmGetKey.Designer.cs">
 			<DependentUpon>frmGetKey.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\Config\frmPreferences.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\Config\frmPreferences.cs" />
 		<Compile Include="Forms\Config\frmPreferences.Designer.cs">
 			<DependentUpon>frmPreferences.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\Config\frmVideoConfig.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\Config\frmVideoConfig.cs" />
 		<Compile Include="Forms\Config\frmVideoConfig.Designer.cs">
 			<DependentUpon>frmVideoConfig.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Forms\Config\KeyPresets.cs" />
 		<Compile Include="Forms\EntityBinder.cs" />
-		<Compile Include="Forms\frmAbout.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\frmAbout.cs" />
 		<Compile Include="Forms\frmAbout.Designer.cs">
 			<DependentUpon>frmAbout.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\frmConfigWizard.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\frmConfigWizard.cs" />
 		<Compile Include="Forms\frmConfigWizard.Designer.cs">
 			<DependentUpon>frmConfigWizard.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\frmFullscreenRenderer.cs">
-			<SubType>Form</SubType>
-		</Compile>
-		<Compile Include="Forms\Config\frmRecordMovie.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\frmFullscreenRenderer.cs" />
+		<Compile Include="Forms\Config\frmRecordMovie.cs" />
 		<Compile Include="Forms\Config\frmRecordMovie.Designer.cs">
 			<DependentUpon>frmRecordMovie.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Forms\MonoThemeHelper.cs" />
 		<Compile Include="Forms\MonoToolStripHelper.cs" />
-		<Compile Include="Forms\NetPlay\frmClientConfig.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\NetPlay\frmClientConfig.cs" />
 		<Compile Include="Forms\NetPlay\frmClientConfig.Designer.cs">
 			<DependentUpon>frmClientConfig.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\NetPlay\frmPlayerProfile.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\NetPlay\frmPlayerProfile.cs" />
 		<Compile Include="Forms\NetPlay\frmPlayerProfile.Designer.cs">
 			<DependentUpon>frmPlayerProfile.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\NetPlay\frmServerConfig.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\NetPlay\frmServerConfig.cs" />
 		<Compile Include="Forms\NetPlay\frmServerConfig.Designer.cs">
 			<DependentUpon>frmServerConfig.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Forms\Tools\CheatDatabase.cs" />
-		<Compile Include="Forms\Tools\frmCheat.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\Tools\frmCheat.cs" />
 		<Compile Include="Forms\Tools\frmCheat.Designer.cs">
 			<DependentUpon>frmCheat.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\Tools\frmCheatDbList.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\Tools\frmCheatDbList.cs" />
 		<Compile Include="Forms\Tools\frmCheatDbList.Designer.cs">
 			<DependentUpon>frmCheatDbList.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\Tools\frmCheatList.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\Tools\frmCheatList.cs" />
 		<Compile Include="Forms\Tools\frmCheatList.Designer.cs">
 			<DependentUpon>frmCheatList.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\Tools\frmLogWindow.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\Tools\frmLogWindow.cs" />
 		<Compile Include="Forms\Tools\frmLogWindow.Designer.cs">
 			<DependentUpon>frmLogWindow.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\frmMain.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\frmMain.cs" />
 		<Compile Include="Forms\frmMain.Designer.cs">
 			<DependentUpon>frmMain.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\frmSelectRom.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\frmSelectRom.cs" />
 		<Compile Include="Forms\frmSelectRom.Designer.cs">
 			<DependentUpon>frmSelectRom.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Forms\Tools\frmRecordAvi.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Forms\Tools\frmRecordAvi.cs" />
 		<Compile Include="Forms\Tools\frmRecordAvi.Designer.cs">
 			<DependentUpon>frmRecordAvi.cs</DependentUpon>
 		</Compile>
@@ -790,15 +557,11 @@
 		<Compile Include="Interop\NetplayApi.cs" />
 		<Compile Include="Interop\RecordApi.cs" />
 		<Compile Include="Interop\TestApi.cs" />
-		<Compile Include="Updates\frmDownloadProgress.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Updates\frmDownloadProgress.cs" />
 		<Compile Include="Updates\frmDownloadProgress.Designer.cs">
 			<DependentUpon>frmDownloadProgress.cs</DependentUpon>
 		</Compile>
-		<Compile Include="Updates\frmUpdatePrompt.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<Compile Include="Updates\frmUpdatePrompt.cs" />
 		<Compile Include="Updates\frmUpdatePrompt.Designer.cs">
 			<DependentUpon>frmUpdatePrompt.cs</DependentUpon>
 		</Compile>

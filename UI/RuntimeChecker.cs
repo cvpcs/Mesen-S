@@ -23,7 +23,7 @@ namespace Mesen.GUI
 			
 			bool dllExists;
 			if(Program.IsMono) {
-				dllExists = File.Exists(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "libMesenSCore.dll"));
+				dllExists = File.Exists(Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "libMesenSCore.dll"));
 			} else {
 				dllExists = File.Exists("MesenSCore.dll");
 			}

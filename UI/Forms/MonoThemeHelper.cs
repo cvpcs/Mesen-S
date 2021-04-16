@@ -187,9 +187,11 @@ namespace Mesen.GUI
 				dgv.DefaultCellStyle.BackColor = theme.ListBgColor;
 				dgv.ColumnHeadersDefaultCellStyle.ForeColor = theme.LabelForeColor;
 				dgv.ColumnHeadersDefaultCellStyle.BackColor = theme.TabBgColor;
+#if !NETCOREAPP3_1_OR_GREATER
 			} else if(container is DataGridTextBox) {
 				((DataGridTextBox)container).BackColor = theme.TextBoxEnabledBgColor;
 				((DataGridTextBox)container).ForeColor = theme.TextBoxForeColor;
+#endif
 			} else if(container is ListView) {
 				((ListView)container).BackColor = theme.ListBgColor;
 				((ListView)container).ForeColor = theme.LabelForeColor;

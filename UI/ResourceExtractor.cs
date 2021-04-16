@@ -101,7 +101,7 @@ namespace Mesen.GUI
 					string outputFilename = Path.Combine(ConfigManager.HomeFolder, Regex.Replace(entry.Name, suffix, string.Empty, RegexOptions.IgnoreCase));
 					ExtractFile(entry, outputFilename);					
 				} else if(entry.Name.StartsWith("libMesenSCore") && Program.IsMono && entry.Name.Contains(suffix)) {
-					string outputFilename = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), entry.Name.Replace(suffix, ""));
+					string outputFilename = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), entry.Name.Replace(suffix, ""));
 					ExtractFile(entry, outputFilename);
 				} else if(entry.Name == "MesenUpdater.exe") {
 					string outputFilename = Path.Combine(ConfigManager.HomeFolder, "Resources", entry.Name);
