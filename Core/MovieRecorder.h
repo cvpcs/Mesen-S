@@ -9,7 +9,7 @@
 
 class ZipWriter;
 class Console;
-//class RewindData;
+class RewindData;
 //struct CodeInfo;
 
 class MovieRecorder : public INotificationListener, public IInputRecorder, public IBatteryRecorder, public IBatteryProvider, public std::enable_shared_from_this<MovieRecorder>
@@ -39,6 +39,8 @@ public:
 
 	bool Record(RecordMovieOptions options);
 	bool Stop();
+
+	bool CreateMovie(string movieFile, std::deque<RewindData>& data, uint32_t startPosition, uint32_t endPosition);
 
 	// Inherited via IInputRecorder
 	void RecordInput(vector<shared_ptr<BaseControlDevice>> devices) override;

@@ -157,7 +157,8 @@ enum class ControllerType
 	SnesController = 1,
 	SnesMouse = 2,
 	SuperScope = 3,
-	Multitap = 4
+	Multitap = 4,
+	SnesMouseButtonsOnly = 5
 };
 
 struct KeyMapping

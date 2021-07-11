@@ -95,4 +95,6 @@ public:
 	MemoryMappings* GetMemoryMappings();
 	void LoadBattery() override;
 	void SaveBattery() override;
+
+	void SetReg(CpuRegister reg, uint16_t value);
 };

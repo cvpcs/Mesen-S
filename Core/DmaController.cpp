@@ -491,6 +491,15 @@ void DmaController::Write(uint16_t addr, uint8_t value)
 			channel.HdmaLineCounterAndRepeat = value;
 			break;
 		}
+
+		case 0x430B: case 0x431B: case 0x432B: case 0x433B: case 0x434B: case 0x435B: case 0x436B: case 0x437B:
+		case 0x430F: case 0x431F: case 0x432F: case 0x433F: case 0x434F: case 0x435F: case 0x436F: case 0x437F:
+		{
+			//UNUSEDx - HDMA Indirect Address bank byte (x=0-7)
+			DmaChannelConfig& channel = _channel[(addr & 0x70) >> 4];
+			channel.UnusedByte = value;
+		}
+
 	}
 }
 
@@ -577,6 +586,15 @@ uint8_t DmaController::Read(uint16_t addr)
 			DmaChannelConfig &channel = _channel[(addr & 0x70) >> 4];
 			return channel.HdmaLineCounterAndRepeat;
 		}
+
+		case 0x430B: case 0x431B: case 0x432B: case 0x433B: case 0x434B: case 0x435B: case 0x436B: case 0x437B:
+		case 0x430F: case 0x431F: case 0x432F: case 0x433F: case 0x434F: case 0x435F: case 0x436F: case 0x437F:
+		{
+			//UNUSEDx - HDMA Indirect Address bank byte (x=0-7)
+			DmaChannelConfig& channel = _channel[(addr & 0x70) >> 4];
+			return channel.UnusedByte;
+		}
+
 	}
 	return _memoryManager->GetOpenBus();
 }
@@ -600,7 +618,8 @@ void DmaController::Serialize(Serializer &s)
 			_channel[i].HdmaBank, _channel[i].HdmaFinished, _channel[i].HdmaIndirectAddressing,
 			_channel[i].HdmaLineCounterAndRepeat, _channel[i].HdmaTableAddress,
 			_channel[i].InvertDirection, _channel[i].SrcAddress, _channel[i].SrcBank, _channel[i].TransferMode,
-			_channel[i].TransferSize, _channel[i].UnusedFlag, _channel[i].DmaActive
+			_channel[i].TransferSize, _channel[i].UnusedFlag, _channel[i].DmaActive,
+			_channel[i].UnusedByte
 		);
 	}
 }

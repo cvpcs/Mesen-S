@@ -5,63 +5,58 @@
 
 bool Breakpoint::Matches(uint32_t memoryAddr, AddressInfo &info)
 {
-	if(_memoryType <= DebugUtilities::GetLastCpuMemoryType() && !DebugUtilities::IsPpuMemory(info.Type)) {
-		if(_startAddr == -1) {
+	if(memoryType <= DebugUtilities::GetLastCpuMemoryType() && !DebugUtilities::IsPpuMemory(info.Type)) {
+		if(startAddr == -1) {
 			return true;
-		} else if(_endAddr == -1) {
-			return (int32_t)memoryAddr == _startAddr;
+		} else if(endAddr == -1) {
+			return (int32_t)memoryAddr == startAddr;
 		} else {
-			return (int32_t)memoryAddr >= _startAddr && (int32_t)memoryAddr <= _endAddr;
+			return (int32_t)memoryAddr >= startAddr && (int32_t)memoryAddr <= endAddr;
 		}
-	} else if(_memoryType == info.Type) {
-		if(_startAddr == -1) {
+	} else if(memoryType == info.Type) {
+		if(startAddr == -1) {
 			return true;
-		} else if(_endAddr == -1) {
-			return info.Address == _startAddr;
+		} else if(endAddr == -1) {
+			return info.Address == startAddr;
 		} else {
-			return info.Address >= _startAddr && info.Address <= _endAddr;
+			return info.Address >= startAddr && info.Address <= endAddr;
 		}
 	}
 
 	return false;
 }
 
-bool Breakpoint::HasBreakpointType(BreakpointType type)
+bool Breakpoint::HasBreakpointType(BreakpointType bpType)
 {
-	switch(type) {
+	switch(bpType) {
 		default:
-		case BreakpointType::Execute: return ((uint8_t)_type & (uint8_t)BreakpointTypeFlags::Execute) != 0;
-		case BreakpointType::Read: return ((uint8_t)_type & (uint8_t)BreakpointTypeFlags::Read) != 0;
-		case BreakpointType::Write: return ((uint8_t)_type & (uint8_t)BreakpointTypeFlags::Write) != 0;
+		case BreakpointType::Execute: return ((uint8_t)type & (uint8_t)BreakpointTypeFlags::Execute) != 0;
+		case BreakpointType::Read: return ((uint8_t)type & (uint8_t)BreakpointTypeFlags::Read) != 0;
+		case BreakpointType::Write: return ((uint8_t)type & (uint8_t)BreakpointTypeFlags::Write) != 0;
 	}
 }
 
 string Breakpoint::GetCondition()
 {
-	return _condition;
+	return condition;
 }
 
 bool Breakpoint::HasCondition()
 {
-	return _condition[0] != 0;
-}
-
-uint32_t Breakpoint::GetId()
-{
-	return _id;
+	return condition[0] != 0;
 }
 
 CpuType Breakpoint::GetCpuType()
 {
-	return _cpuType;
+	return cpuType;
 }
 
 bool Breakpoint::IsEnabled()
 {
-	return _enabled;
+	return enabled;
 }
 
 bool Breakpoint::IsMarked()
 {
-	return _markEvent;
+	return markEvent;
 }

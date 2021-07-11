@@ -28,7 +28,8 @@ const vector<string> ControllerTypeNames = {
 	"SnesController",
 	"SnesMouse",
 	"SuperScope",
-	"Multitap"
+	"Multitap",
+	"SnesMouseButtonsOnly"
 };
 
 const vector<string> RamStateNames = {

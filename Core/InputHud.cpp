@@ -165,7 +165,7 @@ void InputHud::DrawControllers(OverscanDimensions overscan, int frameNumber)
 				hud->DrawRectangle(pos.X - 1, pos.Y - 1, 3, 3, 0x00111111, true, 1, frameNumber);
 				hud->DrawRectangle(pos.X - 1, pos.Y - 1, 3, 3, 0x80CCCCCC, false, 1, frameNumber);
 			}
-		} else if(controllerData[i].Type == ControllerType::SnesMouse) {
+		} else if(controllerData[i].Type == ControllerType::SnesMouse || controllerData[i].Type == ControllerType::SnesMouseButtonsOnly) {
 			if(cfg.DisplayInputPort[i]) {
 				SnesMouse mouse(_console, 0);
 				mouse.SetRawState(controllerData[i].State);

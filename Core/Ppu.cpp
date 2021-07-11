@@ -949,7 +949,7 @@ void Ppu::RenderTilemap()
 
 	TileData* tileData  = _layerData[layerIndex].Tiles;
 
-	uint8_t mosaicCounter = applyMosaic ? (_drawStartX % _state.MosaicSize) : 0;
+	uint8_t mosaicCounter = applyMosaic ? _state.MosaicSize - (_drawStartX % _state.MosaicSize) : 0;
 
 	uint8_t lookupIndex;
 	uint8_t chrDataOffset;
@@ -988,7 +988,7 @@ void Ppu::RenderTilemap()
 		uint8_t priority = (tilemapData & 0x2000) ? highPriority : normalPriority;
 
 		if(applyMosaic) {
-			if(mosaicCounter == 0) {
+			if(mosaicCounter == _state.MosaicSize) {
 				mosaicCounter = 1;
 				if(hiResMode) {
 					color = hiresSubColor;
@@ -997,9 +997,6 @@ void Ppu::RenderTilemap()
 				_mosaicPriority[layerIndex] = priority;
 			} else {
 				mosaicCounter++;
-				if(mosaicCounter == _state.MosaicSize) {
-					mosaicCounter = 0;
-				}
 				color = _mosaicColor[layerIndex] & 0xFF;
 				paletteIndex = _mosaicColor[layerIndex] >> 8;
 				priority = _mosaicPriority[layerIndex];
@@ -1111,7 +1108,7 @@ void Ppu::RenderTilemapMode7()
 		//Keep the "scanline" to what it was at the start of this mosaic block
 		realY -= _state.MosaicSize - _mosaicScanlineCounter;
 	}
-	uint8_t mosaicCounter = applyMosaic ? (_drawStartX % _state.MosaicSize) : 0;
+	uint8_t mosaicCounter = applyMosaic ? _state.MosaicSize - (_drawStartX % _state.MosaicSize) : 0;
 
 	int32_t xValue = (
 		((_state.Mode7.Matrix[0] * clip(hScroll - centerX)) & ~63) +
@@ -1178,15 +1175,12 @@ void Ppu::RenderTilemapMode7()
 		}
 
 		if(applyMosaic) {
-			if(mosaicCounter == 0) {
+			if(mosaicCounter == _state.MosaicSize) {
 				mosaicCounter = 1;
 				_mosaicColor[layerIndex] = colorIndex;
 				_mosaicPriority[layerIndex] = priority;
 			} else {
 				mosaicCounter++;
-				if(mosaicCounter == _state.MosaicSize) {
-					mosaicCounter = 0;
-				}
 				colorIndex = _mosaicColor[layerIndex];
 				priority = _mosaicPriority[layerIndex];
 			}
@@ -1729,7 +1723,7 @@ uint8_t Ppu::Read(uint16_t addr)
 			if(_regs->GetIoPortOutput() & 0x80) {
 				_locationLatched = false;
 
-				//"The high/low selector is reset to ÅelowÅf when $213F is read" (the selector is NOT reset when the counter is latched)
+				//"The high/low selector is reset to ?elow?f when $213F is read" (the selector is NOT reset when the counter is latched)
 				_horizontalLocToggle = false;
 				_verticalLocationToggle = false;
 			}
@@ -1838,7 +1832,7 @@ void Ppu::Write(uint32_t addr, uint8_t value)
 			_state.MosaicSize = ((value & 0xF0) >> 4) + 1;
 			uint8_t mosaicEnabled = value & 0x0F;
 			if(!_state.MosaicEnabled && mosaicEnabled) {
-				//"If this register is set during the frame, the Åstarting scanline is the current scanline, otherwise it is the first visible scanline of the frame."
+				//"If this register is set during the frame, the ?starting scanline is the current scanline, otherwise it is the first visible scanline of the frame."
 				//This is only done when mosaic is turned on from an off state (FF6 mosaic effect looks wrong otherwise)
 				//FF6's mosaic effect is broken on some screens without this.
 				_mosaicScanlineCounter = _state.MosaicSize + 1;

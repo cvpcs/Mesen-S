@@ -76,8 +76,10 @@ bool ExpressionEvaluator::CheckSpecialTokens(string expression, size_t &pos, str
 		tokenValue = ProcessGsuTokens(token);
 	} else if(_cpuType == CpuType::Gameboy) {
 		tokenValue = ProcessGameboyTokens(token);
-	} else {
-		tokenValue = ProcessCpuSpcTokens(token);
+	} else if(_cpuType == CpuType::Spc) {
+		tokenValue = ProcessCpuSpcTokens(token, true);
+	} else { // Cpu or Sa1
+		tokenValue = ProcessCpuSpcTokens(token, false);
 	}
 
 	if(tokenValue != -1) {
@@ -108,7 +110,7 @@ bool ExpressionEvaluator::CheckSpecialTokens(string expression, size_t &pos, str
 	}
 }
 
-int64_t ExpressionEvaluator::ProcessCpuSpcTokens(string token)
+int64_t ExpressionEvaluator::ProcessCpuSpcTokens(string token, bool spc700)
 {
 	if(token == "a") {
 		return EvalValues::RegA;
@@ -118,6 +120,32 @@ int64_t ExpressionEvaluator::ProcessCpuSpcTokens(string token)
 		return EvalValues::RegY;
 	} else if(token == "ps") {
 		return EvalValues::RegPS;
+	} else if (token == "pscarry") {
+		return EvalValues::RegPS_Carry;
+	} else if (token == "pszero") {
+		return EvalValues::RegPS_Zero;
+	} else if (token == "psinterrupt") {
+		return EvalValues::RegPS_Interrupt;
+	} else if (token == "psdecimal") {
+		return EvalValues::RegPS_Decimal;
+	} else if (token == "psoverflow") {
+		return EvalValues::RegPS_Overflow;
+	} else if (token == "psnegative") {
+		return EvalValues::RegPS_Negative;
+	} else if (token == "ps8bit" && !spc700) {
+		return EvalValues::RegPS_8bit;
+	} else if (token == "ps8bitindex" && !spc700) {
+		return EvalValues::RegPS_8bitIndex;
+	} else if (token == "ps16bit" && !spc700) {
+		return EvalValues::RegPS_16bit;
+	} else if (token == "ps16bitindex" && !spc700) {
+		return EvalValues::RegPS_16bitIndex;
+	} else if (token == "pshalfcarry" && spc700) {
+		return EvalValues::RegPS_HalfCarry;
+	} else if (token == "psbreak" && spc700) {
+		return EvalValues::RegPS_Break;
+	} else if (token == "psstackzp" && spc700) {
+		return EvalValues::RegPS_StackZeropage;
 	} else if(token == "sp") {
 		return EvalValues::RegSP;
 	} else if(token == "pc") {
@@ -506,6 +534,16 @@ int32_t ExpressionEvaluator::Evaluate(ExpressionData &data, DebugState &state, E
 									case EvalValues::RegPC: token = state.Cpu.PC; break;
 									case EvalValues::Nmi: token = state.Cpu.NmiFlag; resultType = EvalResultType::Boolean; break;
 									case EvalValues::Irq: token = state.Cpu.IrqSource != 0; resultType = EvalResultType::Boolean; break;
+									case EvalValues::RegPS_Carry: token = (state.Cpu.PS & 1) != 0; break;
+									case EvalValues::RegPS_Zero: token = (state.Cpu.PS & 2) != 0; break;
+									case EvalValues::RegPS_Interrupt: token = (state.Cpu.PS & 4) != 0; break;
+									case EvalValues::RegPS_Decimal: token = (state.Cpu.PS & 8) != 0; break;
+									case EvalValues::RegPS_8bitIndex: token = (state.Cpu.PS & 16) != 0; break;
+									case EvalValues::RegPS_8bit: token = (state.Cpu.PS & 32) != 0; break;
+									case EvalValues::RegPS_16bitIndex: token = (state.Cpu.PS & 16) == 0; break;
+									case EvalValues::RegPS_16bit: token = (state.Cpu.PS & 32) == 0; break;
+									case EvalValues::RegPS_Overflow: token = (state.Cpu.PS & 64) != 0; break;
+									case EvalValues::RegPS_Negative: token = (state.Cpu.PS & 128) != 0; break;
 								}
 								break;
 
@@ -517,6 +555,14 @@ int32_t ExpressionEvaluator::Evaluate(ExpressionData &data, DebugState &state, E
 									case EvalValues::RegSP: token = state.Spc.SP; break;
 									case EvalValues::RegPS: token = state.Spc.PS; break;
 									case EvalValues::RegPC: token = state.Spc.PC; break;
+									case EvalValues::RegPS_Carry: token = (state.Cpu.PS & 1) != 0; break;
+									case EvalValues::RegPS_Zero: token = (state.Cpu.PS & 2) != 0; break;
+									case EvalValues::RegPS_Interrupt: (state.Cpu.PS & 4) != 0; break;
+									case EvalValues::RegPS_HalfCarry: (state.Cpu.PS & 8) != 0; break;
+									case EvalValues::RegPS_Break: (state.Cpu.PS & 16) != 0; break; 
+									case EvalValues::RegPS_StackZeropage: (state.Cpu.PS & 32) != 0; break;
+									case EvalValues::RegPS_Overflow: (state.Cpu.PS & 64) != 0; break;
+									case EvalValues::RegPS_Negative: (state.Cpu.PS & 128) != 0; break;
 								}
 								break;
 

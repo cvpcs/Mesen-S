@@ -201,10 +201,9 @@ namespace Mesen.GUI.Debugger
 			return false;
 		}
 
-		public InteropBreakpoint ToInteropBreakpoint(int breakpointId)
+		public InteropBreakpoint ToInteropBreakpoint()
 		{
 			InteropBreakpoint bp = new InteropBreakpoint() {
-				Id = breakpointId,
 				CpuType = CpuType,
 				MemoryType = MemoryType,
 				Type = Type,

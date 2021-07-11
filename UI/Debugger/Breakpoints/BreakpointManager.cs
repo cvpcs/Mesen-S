@@ -127,14 +127,14 @@ namespace Mesen.GUI.Debugger
 			ReadOnlyCollection<Breakpoint> userBreakpoints = BreakpointManager.Breakpoints;
 			for(int i = 0; i < userBreakpoints.Count; i++) {
 				if(_activeCpuTypes.Contains(userBreakpoints[i].CpuType)) {
-					breakpoints.Add(userBreakpoints[i].ToInteropBreakpoint(breakpoints.Count));
+					breakpoints.Add(userBreakpoints[i].ToInteropBreakpoint());
 				}
 			}
 
 			List<Breakpoint> assertBreakpoints = BreakpointManager.Asserts;
 			for(int i = 0; i < assertBreakpoints.Count; i++) {
 				if(_activeCpuTypes.Contains(assertBreakpoints[i].CpuType)) {
-					breakpoints.Add(assertBreakpoints[i].ToInteropBreakpoint(breakpoints.Count));
+					breakpoints.Add(assertBreakpoints[i].ToInteropBreakpoint());
 				}
 			}
 

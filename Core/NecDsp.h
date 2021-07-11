@@ -82,4 +82,6 @@ public:
 	NecDspState GetState();
 
 	void Serialize(Serializer &s) override;
+
+	void SetReg(NecDspRegister reg, uint16_t value);
 };

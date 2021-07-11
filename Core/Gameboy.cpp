@@ -364,3 +364,8 @@ void Gameboy::Serialize(Serializer& s)
 	s.StreamArray(_spriteRam, Gameboy::SpriteRamSize);
 	s.StreamArray(_highRam, Gameboy::HighRamSize);
 }
+
+void Gameboy::SetReg(GbRegister reg, uint16_t value)
+{
+	_cpu->SetReg(reg, value);
+}

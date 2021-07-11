@@ -5,7 +5,6 @@ namespace Mesen.GUI.Debugger
 {
 	public struct InteropBreakpoint
 	{
-		public Int32 Id;
 		public CpuType CpuType;
 		public SnesMemoryType MemoryType;
 		public BreakpointTypeFlags Type;

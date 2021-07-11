@@ -50,6 +50,28 @@ struct InteropRomInfo
 
 static string _romPath;
 static string _patchPath;
+extern shared_ptr<Console> _historyConsole;
+
+enum class ConsoleId
+{
+	Main = 0,
+	HistoryViewer = 1
+};
+
+shared_ptr<Console> GetConsoleById(ConsoleId consoleId)
+{
+	shared_ptr<Console> console;
+	switch (consoleId) {
+	case ConsoleId::Main: console = _console; break;
+	case ConsoleId::HistoryViewer: console = _historyConsole; break;
+	}
+
+	if (!console) {
+		//Otherwise return the main CPU
+		console = _console;
+	}
+	return console;
+}
 
 extern "C" {
 	DllExport bool __stdcall TestDll()
@@ -103,6 +125,19 @@ extern "C" {
 			}
 		}
 	}
+
+	DllExport void __stdcall SetMasterVolume(double volume, ConsoleId consoleId) {
+		AudioConfig config = GetConsoleById(consoleId)->GetSettings()->GetAudioConfig();
+		config.MasterVolume = volume;
+		GetConsoleById(consoleId)->GetSettings()->SetAudioConfig(config);
+	}
+
+	DllExport void __stdcall SetVideoScale(double scale, ConsoleId consoleId) {
+		VideoConfig config = GetConsoleById(consoleId)->GetSettings()->GetVideoConfig();
+		config.VideoScale = scale;
+		GetConsoleById(consoleId)->GetSettings()->SetVideoConfig(config);
+	}
+
 
 	DllExport void __stdcall SetFullscreenMode(bool fullscreen, void *windowHandle, uint32_t monitorWidth, uint32_t monitorHeight)
 	{
@@ -164,23 +199,23 @@ extern "C" {
 		_console->Stop(true);
 	}
 
-	DllExport void __stdcall Pause()
+	DllExport void __stdcall Pause(ConsoleId consoleId)
 	{
 		if(!GameClient::Connected()) {
-			_console->Pause();
+			GetConsoleById(consoleId)->Pause();
 		}
 	}
 
-	DllExport void __stdcall Resume()
+	DllExport void __stdcall Resume(ConsoleId consoleId)
 	{
 		if(!GameClient::Connected()) {
-			_console->Resume();
+			GetConsoleById(consoleId)->Resume();
 		}
 	}
 
-	DllExport bool __stdcall IsPaused()
+	DllExport bool __stdcall IsPaused(ConsoleId consoleId)
 	{
-		shared_ptr<Console> console = _console;
+		shared_ptr<Console> console = GetConsoleById(consoleId);
 		if(console) {
 			return console->IsPaused();
 		}
@@ -242,9 +277,9 @@ extern "C" {
 		return _logString.c_str();
 	}
 
-	DllExport ScreenSize __stdcall GetScreenSize(bool ignoreScale)
+	DllExport ScreenSize __stdcall GetScreenSize(bool ignoreScale, ConsoleId console)
 	{
-		return _console->GetVideoDecoder()->GetScreenSize(ignoreScale);
+		return GetConsoleById(console)->GetVideoDecoder()->GetScreenSize(ignoreScale);
 	}
 	
 	DllExport void __stdcall ClearCheats() { _console->GetCheatManager()->ClearCheats(); }

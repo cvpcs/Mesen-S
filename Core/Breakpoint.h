@@ -12,23 +12,20 @@ class Breakpoint
 {
 public:
 	bool Matches(uint32_t memoryAddr, AddressInfo &info);
-	bool HasBreakpointType(BreakpointType type);
+	bool HasBreakpointType(BreakpointType bpType);
 	string GetCondition();
 	bool HasCondition();
 
-	uint32_t GetId();
 	CpuType GetCpuType();
 	bool IsEnabled();
 	bool IsMarked();
-	
-private:
-	uint32_t _id;
-	CpuType _cpuType;
-	SnesMemoryType _memoryType;
-	BreakpointTypeFlags _type;
-	int32_t _startAddr;
-	int32_t _endAddr;
-	bool _enabled;
-	bool _markEvent;
-	char _condition[1000];
+
+	CpuType cpuType;
+	SnesMemoryType memoryType;
+	BreakpointTypeFlags type;
+	int32_t startAddr;
+	int32_t endAddr;
+	bool enabled;
+	bool markEvent;
+	char condition[1000];
 };

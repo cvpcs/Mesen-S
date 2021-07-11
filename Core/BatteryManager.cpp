@@ -6,6 +6,12 @@
 void BatteryManager::Initialize(string romName)
 {
 	_romName = romName;
+	_saveEnabled = true;
+}
+
+void BatteryManager::SetSaveEnabled(bool enabled)
+{
+	_saveEnabled = enabled;
 }
 
 string BatteryManager::GetBasePath()
@@ -25,16 +31,18 @@ void BatteryManager::SetBatteryRecorder(shared_ptr<IBatteryRecorder> recorder)
 
 void BatteryManager::SaveBattery(string extension, uint8_t* data, uint32_t length)
 {
+	if (_saveEnabled) {
 #ifdef LIBRETRO
-	if(extension == ".srm") {
-		//Disable .srm files for libretro, let the frontend handle save ram
-		return;
-	}
+		if (extension == ".srm") {
+			//Disable .srm files for libretro, let the frontend handle save ram
+			return;
+		}
 #endif
 
-	ofstream out(GetBasePath() + extension, ios::binary);
-	if(out) {
-		out.write((char*)data, length);
+		ofstream out(GetBasePath() + extension, ios::binary);
+		if (out) {
+			out.write((char*)data, length);
+		}
 	}
 }
 

@@ -51,6 +51,7 @@ namespace Mesen.GUI.Debugger
 					case DebugWindow.GbPaletteViewer: frm = new frmPaletteViewer(CpuType.Gameboy); frm.Icon = Properties.Resources.VideoFilter; break;
 					case DebugWindow.GbSpriteViewer: frm = new frmSpriteViewer(CpuType.Gameboy); frm.Icon = Properties.Resources.PerfTracker; break;
 					case DebugWindow.GbEventViewer: frm = new frmEventViewer(CpuType.Gameboy); frm.Icon = Properties.Resources.NesEventViewer; break;
+					case DebugWindow.WatchWindow: frm = new frmWatchWindow(); frm.Icon = Properties.Resources.Find; break;
 				}
 
 				if(_openedWindows.Count == 0) {
@@ -203,6 +204,7 @@ namespace Mesen.GUI.Debugger
 				case DebugWindow.GbEventViewer: return _openedWindows.ToList().Find((form) => form.GetType() == typeof(frmEventViewer) && ((frmEventViewer)form).CpuType == CpuType.Gameboy);
 				case DebugWindow.Profiler: return _openedWindows.ToList().Find((form) => form.GetType() == typeof(frmProfiler));
 				case DebugWindow.DebugLog: return _openedWindows.ToList().Find((form) => form.GetType() == typeof(frmDebugLog));
+				case DebugWindow.WatchWindow: return _openedWindows.ToList().Find((form) => form.GetType() == typeof(frmWatchWindow));
 			}
 
 			return null;
@@ -261,6 +263,7 @@ namespace Mesen.GUI.Debugger
 		Profiler,
 		Assembler,
 		DebugLog,
+		WatchWindow,
 
 		GbTileViewer,
 		GbTilemapViewer,

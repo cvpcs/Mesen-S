@@ -17,6 +17,7 @@ class BatteryManager
 {
 private:
 	string _romName;
+	bool _saveEnabled;
 	std::weak_ptr<IBatteryProvider> _provider;
 	std::weak_ptr<IBatteryRecorder> _recorder;
 
@@ -24,6 +25,8 @@ private:
 
 public:
 	void Initialize(string romName);
+
+	void SetSaveEnabled(bool enabled);
 
 	void SetBatteryProvider(shared_ptr<IBatteryProvider> provider);
 	void SetBatteryRecorder(shared_ptr<IBatteryRecorder> recorder);

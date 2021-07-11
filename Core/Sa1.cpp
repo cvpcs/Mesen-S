@@ -864,3 +864,8 @@ void Sa1::Serialize(Serializer &s)
 		ProcessInterrupts();
 	}
 }
+
+void Sa1::SetReg(CpuRegister reg, uint16_t value)
+{
+	_cpu->SetReg(reg, value);
+}

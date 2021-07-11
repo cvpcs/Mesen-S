@@ -925,4 +925,110 @@ namespace Mesen.GUI
 		public InternalRegisterState InternalRegs;
 		public AluState Alu;
 	}
+
+	public enum CpuRegister : byte
+	{
+		CpuRegA,
+		CpuRegX,
+		CpuRegY,
+		CpuRegSP,
+		CpuRegD,
+		CpuRegPC,
+		CpuRegK,
+		CpuRegDBR,
+		CpuRegPS,
+		CpuFlagNmi,
+	}
+
+	public enum Cx4Register : byte
+	{
+		Cx4Reg0,
+		Cx4Reg1,
+		Cx4Reg2,
+		Cx4Reg3,
+		Cx4Reg4,
+		Cx4Reg5,
+		Cx4Reg6,
+		Cx4Reg7,
+		Cx4Reg8,
+		Cx4Reg9,
+		Cx4Reg10,
+		Cx4Reg11,
+		Cx4Reg12,
+		Cx4Reg13,
+		Cx4Reg14,
+		Cx4Reg15,
+		Cx4RegPB,
+		Cx4RegPC,
+		Cx4RegA,
+		Cx4RegP,
+		Cx4RegSP,
+	}
+
+	public enum GbRegister : byte
+	{
+		GbRegPC,
+		GbRegSP,
+		GbRegA,
+		GbRegFlags,
+		GbRegB,
+		GbRegC,
+		GbRegD,
+		GbRegE,
+		GbRegH,
+		GbRegL,
+	}
+
+	public enum GsuRegister : byte
+	{
+		GsuReg0,
+		GsuReg1,
+		GsuReg2,
+		GsuReg3,
+		GsuReg4,
+		GsuReg5,
+		GsuReg6,
+		GsuReg7,
+		GsuReg8,
+		GsuReg9,
+		GsuRegA,
+		GsuRegB,
+		GsuRegC,
+		GsuRegD,
+		GsuRegE,
+		GsuRegF,
+		GsuRegSFR,
+	}
+
+	public enum NecDspRegister : byte
+	{
+		NecDspRegA,
+		NecDspRegFlagsA,
+		NecDspRegB,
+		NecDspRegFlagsB,
+		NecDspRegTR,
+		NecDspRegTRB,
+		NecDspRegPC,
+		NecDspRegRP,
+		NecDspRegDP,
+		NecDspRegDR,
+		NecDspRegSR,
+		NecDspRegK,
+		NecDspRegL,
+		NecDspRegM,
+		NecDspRegN,
+		NecDspRegSerialOut,
+		NecDspRegSerialIn,
+		NecDspRegSP,
+	}
+
+	public enum SpcRegister : byte
+	{
+		SpcRegPC,
+		SpcRegA,
+		SpcRegX,
+		SpcRegY,
+		SpcRegSP,
+		SpcRegPS,
+	}
 }

@@ -143,3 +143,45 @@ void Sa1Cpu::IncreaseCycleCount(uint64_t cycleCount)
 {
 	_state.CycleCount += cycleCount;
 }
+
+void Sa1Cpu::SetReg(CpuRegister reg, uint16_t value)
+{
+	switch (reg) {
+	case CpuRegister::CpuRegA:
+	{
+		_state.A = value;
+	} break;
+	case CpuRegister::CpuRegX:
+	{
+		_state.X = value;
+	} break;
+	case CpuRegister::CpuRegY:
+	{
+		_state.Y = value;
+	} break;
+	case CpuRegister::CpuRegSP:
+	{
+		_state.SP = value;
+	} break;
+	case CpuRegister::CpuRegD:
+	{
+		_state.D = value;
+	} break;
+	case CpuRegister::CpuRegPC:
+	{
+		_state.PC = value;
+	} break;
+	case CpuRegister::CpuRegK:
+	{
+		_state.K = value & 0xFF;
+	} break;
+	case CpuRegister::CpuRegDBR:
+	{
+		_state.DBR = value & 0xFF;
+	} break;
+	case CpuRegister::CpuRegPS:
+	{
+		_state.PS = value & 0xFF;
+	} break;
+	}
+}

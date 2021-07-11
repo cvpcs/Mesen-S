@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "CpuTypes.h"
+#include "DebugTypes.h"
 #include "../Utilities/ISerializable.h"
 
 class Sa1;
@@ -333,6 +334,8 @@ public:
 
 	// Inherited via ISerializable
 	void Serialize(Serializer &s) override;
+
+	void SetReg(CpuRegister reg, uint16_t value);
 };
 
 template<uint64_t count>

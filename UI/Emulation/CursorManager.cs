@@ -165,6 +165,7 @@ namespace Mesen.GUI.Emulation
 					switch(ConfigApi.GetControllerType(i)) {
 						case ControllerType.SnesMouse:
 							return true;
+						// Do not allow mouse capture on SnesMouseButtonsOnly because that's the whole point of that input method
 					}
 				}
 				return false;

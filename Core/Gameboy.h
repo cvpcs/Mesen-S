@@ -92,4 +92,6 @@ public:
 	uint64_t GetApuCycleCount();
 
 	void Serialize(Serializer& s) override;
+
+	void SetReg(GbRegister reg, uint16_t value);
 };

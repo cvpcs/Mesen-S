@@ -144,6 +144,8 @@ namespace Mesen.GUI.Debugger
 				"Note: Use the $ prefix to denote hexadecimal values." + Environment.NewLine + Environment.NewLine +
 				//"Note 2: Labels assigned to the code can be used (their value will match the label's address in CPU memory)." + Environment.NewLine + Environment.NewLine +
 				"A/X/Y/PS/SP: Value of registers" + Environment.NewLine +
+				"PsCarry/PsZero/PsInterrupt/PsDecimal/PsOverflow/PsNegative: Processor flags" + Environment.NewLine +
+				"Ps8bit/Ps16bit/Ps8bitIndex/Ps16bitIndex: Register sizes" + Environment.NewLine +
 				"PC: Program Counter" + Environment.NewLine +
 				"OpPC: Address of the current instruction's first byte" + Environment.NewLine +
 				"PreviousOpPC: Address of the previous instruction's first byte" + Environment.NewLine +

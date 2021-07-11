@@ -31,6 +31,7 @@ namespace Mesen.GUI.Forms
 		private ShortcutHandler _shortcuts;
 		private DisplayManager _displayManager;
 		private CommandLineHelper _commandLine;
+		private frmHistoryViewer _historyViewerWindow;
 
 		public static frmMain Instance { get; private set; }
 
@@ -301,6 +302,7 @@ namespace Mesen.GUI.Forms
 			mnuProfiler.InitShortcut(this, nameof(DebuggerShortcutsConfig.OpenProfiler));
 			mnuAssembler.InitShortcut(this, nameof(DebuggerShortcutsConfig.OpenAssembler));
 			mnuDebugLog.InitShortcut(this, nameof(DebuggerShortcutsConfig.OpenDebugLog));
+			mnuWatchWindow.InitShortcut(this, nameof(DebuggerShortcutsConfig.OpenWatchWindow));
 
 			mnuNoneFilter.Click += (s, e) => { _shortcuts.SetVideoFilter(VideoFilterType.None); };
 			mnuNtscFilter.Click += (s, e) => { _shortcuts.SetVideoFilter(VideoFilterType.NTSC); };
@@ -368,6 +370,7 @@ namespace Mesen.GUI.Forms
 			mnuProfiler.Click += (s, e) => { DebugWindowManager.OpenDebugWindow(DebugWindow.Profiler); };
 			mnuAssembler.Click += (s, e) => { DebugWindowManager.OpenDebugWindow(DebugWindow.Assembler); };
 			mnuDebugLog.Click += (s, e) => { DebugWindowManager.OpenDebugWindow(DebugWindow.DebugLog); };
+			mnuWatchWindow.Click += (s, e) => { DebugWindowManager.OpenDebugWindow(DebugWindow.WatchWindow); };
 
 			mnuGbTilemapViewer.Click += (s, e) => { DebugWindowManager.OpenDebugWindow(DebugWindow.GbTilemapViewer); };
 			mnuGbTileViewer.Click += (s, e) => { DebugWindowManager.OpenDebugWindow(DebugWindow.GbTileViewer); };
@@ -485,6 +488,7 @@ namespace Mesen.GUI.Forms
 			mnuProfiler.Enabled = running;
 			mnuAssembler.Enabled = running;
 			mnuDebugLog.Enabled = running;
+			mnuWatchWindow.Enabled = running;
 
 			bool isGameboyMode = coprocessor == CoprocessorType.Gameboy;
 			bool isSuperGameboy = coprocessor == CoprocessorType.SGB;
@@ -720,6 +724,7 @@ namespace Mesen.GUI.Forms
 			mnuNetPlay.Enabled = runAheadDisabled && !isGameboyMode;
 
 			mnuMovies.Enabled = runAheadDisabled && EmuRunner.IsRunning();
+			mnuHistoryViewer.Enabled = runAheadDisabled && EmuRunner.IsRunning();
 			mnuPlayMovie.Enabled = runAheadDisabled && EmuRunner.IsRunning() && !RecordApi.MoviePlaying() && !RecordApi.MovieRecording() && !isClient;
 			mnuRecordMovie.Enabled = runAheadDisabled && EmuRunner.IsRunning() && !RecordApi.MoviePlaying() && !RecordApi.MovieRecording();
 			mnuStopMovie.Enabled = runAheadDisabled && EmuRunner.IsRunning() && (RecordApi.MoviePlaying() || RecordApi.MovieRecording());
@@ -807,5 +812,24 @@ namespace Mesen.GUI.Forms
 			string platform = Program.IsMono ? "linux" : "win";
 			Process.Start("http://www.mesen.ca/snes/docs/?v=" + EmuApi.GetMesenVersion() + "&p=" + platform + "&l=" + ResourceHelper.GetLanguageCode());
 		}
-	}
+
+	  private void mnuHistoryViewer_Click(object sender, EventArgs e)
+	  {
+			if (_historyViewerWindow == null)
+			{
+				_historyViewerWindow = new frmHistoryViewer();
+				_historyViewerWindow.Show(sender, this);
+				_historyViewerWindow.FormClosed += (s, evt) => {
+					_historyViewerWindow = null;
+				};
+			}
+			else
+			{
+				_historyViewerWindow.WindowState = FormWindowState.Normal;
+				_historyViewerWindow.BringToFront();
+				_historyViewerWindow.Focus();
+			}
+		}
+
+   }
 }

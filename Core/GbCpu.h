@@ -150,4 +150,6 @@ public:
 	void Exec();
 	
 	void Serialize(Serializer& s) override;
+
+	void SetReg(GbRegister reg, uint16_t value);
 };

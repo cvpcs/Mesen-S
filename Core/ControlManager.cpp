@@ -113,6 +113,7 @@ shared_ptr<BaseControlDevice> ControlManager::CreateControllerDevice(ControllerT
 		case ControllerType::SnesMouse: device.reset(new SnesMouse(console, port)); break;
 		case ControllerType::SuperScope: device.reset(new SuperScope(console, port, cfg.Controllers[port].Keys)); break;
 		case ControllerType::Multitap: device.reset(new Multitap(console, port, cfg.Controllers[port].Keys, cfg.Controllers[2].Keys, cfg.Controllers[3].Keys, cfg.Controllers[4].Keys)); break;
+		case ControllerType::SnesMouseButtonsOnly: device.reset(new SnesMouse(console, port)); break;
 	}
 	
 	return device;

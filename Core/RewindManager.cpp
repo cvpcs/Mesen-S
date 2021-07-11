@@ -361,3 +361,8 @@ bool RewindManager::SendAudio(int16_t * soundBuffer, uint32_t sampleCount)
 {
 	return ProcessAudio(soundBuffer, sampleCount);
 }
+
+void RewindManager::CopyHistory(shared_ptr<HistoryViewer> destHistoryViewer)
+{
+	destHistoryViewer->SetHistoryData(_history);
+}

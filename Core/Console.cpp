@@ -140,6 +140,10 @@ void Console::Run()
 			RunFrameWithRunAhead();
 		} else {
 			RunFrame();
+
+			if (_historyViewer) {
+				_historyViewer->ProcessEndOfFrame();
+			}
 			_rewindManager->ProcessEndOfFrame();
 			ProcessSystemActions();
 		}
@@ -559,6 +563,25 @@ double Console::GetFrameDelay()
 		frameDelay /= (emulationSpeed / 100.0);
 	}
 	return frameDelay;
+}
+
+HistoryViewer* Console::GetHistoryViewer()
+{
+	return _historyViewer.get();
+}
+
+void Console::CopyRewindData(shared_ptr<Console> sourceConsole)
+{
+	sourceConsole->Lock();
+	Lock();
+
+	//Disable battery saving for this instance
+	_batteryManager->SetSaveEnabled(false);
+	_historyViewer.reset(new HistoryViewer(shared_from_this()));
+	sourceConsole->GetRewindManager()->CopyHistory(_historyViewer);
+
+	Unlock();
+	sourceConsole->Unlock();
 }
 
 void Console::PauseOnNextFrame()

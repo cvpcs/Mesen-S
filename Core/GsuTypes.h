@@ -39,6 +39,27 @@ struct GsuFlags
 			(Irq << 7)
 		);
 	}
+
+	void SetFlags(uint16_t flags)
+	{
+		// 0 bit is clear
+		Zero = flags & (1 << 1);
+		Carry = flags & (1 << 2);
+		Sign = flags & (1 << 3);
+		Overflow = flags & (1 << 4);
+		Running = flags & (1 << 5);
+		RomReadPending = flags & (1 << 6);
+		// 7 bit is clear
+
+		Alt1 = flags & (1 << (8 + 0));
+		Alt2 = flags & (1 << (8 + 1));
+		ImmLow = flags & (1 << (8 + 2));
+		ImmHigh = flags & (1 << (8 + 3));
+		Prefix = flags & (1 << (8 + 4));
+		// 5 bit is clear
+		// 6 bit is clear
+		Irq = flags & (1 << (8 + 7));
+	}
 };
 
 struct GsuPixelCache

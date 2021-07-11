@@ -127,7 +127,17 @@ public:
 	void ProcessBreakConditions(bool needBreak, BreakpointManager *bpManager, MemoryOperationInfo &operation, AddressInfo &addressInfo, BreakSource source = BreakSource::Unspecified);
 	void SleepUntilResume(BreakSource source, MemoryOperationInfo* operation = nullptr, int breakpointId = -1);
 
-	void GetState(DebugState &state, bool partialPpuState);
+	void GetState(DebugState& state, bool partialPpuState);
+	bool GetCpuProcFlag(ProcFlags::ProcFlags flag);
+
+	void SetCpuRegister(CpuRegister reg, uint16_t value);
+	void SetCpuProcFlag(ProcFlags::ProcFlags flag, bool set);
+	void SetCx4Register(Cx4Register reg, uint32_t value);
+	void SetGameboyRegister(GbRegister reg, uint16_t value);
+	void SetGsuRegister(GsuRegister reg, uint16_t value);
+	void SetNecDspRegister(NecDspRegister reg, uint16_t value);
+	void SetSa1Register(CpuRegister reg, uint16_t value);
+	void SetSpcRegister(SpcRegister reg, uint16_t value);
 
 	AddressInfo GetAbsoluteAddress(AddressInfo relAddress);
 	AddressInfo GetRelativeAddress(AddressInfo absAddress, CpuType cpuType);
@@ -140,6 +150,7 @@ public:
 	void RebuildPrgCache(CpuType cpuType);
 
 	void SetBreakpoints(Breakpoint breakpoints[], uint32_t length);
+	void GetBreakpoints(CpuType cpuType, Breakpoint* breakpoints, int& execs, int& reads, int& writes);
 	
 	void Log(string message);
 	string GetLog();

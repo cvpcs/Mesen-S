@@ -58,6 +58,16 @@ namespace Mesen.GUI
 			return state;
 		}
 
+		[DllImport(DllPath)] public static extern void SetCpuRegister(CpuRegister reg, UInt16 value);
+		[DllImport(DllPath)] public static extern void SetCpuProcFlag(ProcFlags flag, [MarshalAs(UnmanagedType.I1)]bool set);
+		[DllImport(DllPath)] public static extern void SetSpcRegister(SpcRegister reg, UInt16 value);
+		[DllImport(DllPath)] public static extern void SetNecDspRegister(NecDspRegister reg, UInt16 value);
+		[DllImport(DllPath)] public static extern void SetSa1Register(CpuRegister reg, UInt16 value);
+		[DllImport(DllPath)] public static extern void SetGsuRegister(GsuRegister reg, UInt16 value);
+		[DllImport(DllPath)] public static extern void SetCx4Register(Cx4Register reg, UInt32 value);
+		[DllImport(DllPath)] public static extern void SetGameboyRegister(GbRegister reg, UInt16 value);
+
+
 		[DllImport(DllPath)] public static extern void SetScriptTimeout(UInt32 timeout);
 		[DllImport(DllPath)] public static extern Int32 LoadScript([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8Marshaler))]string name, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8Marshaler))]string content, Int32 scriptId = -1);
 		[DllImport(DllPath)] public static extern void RemoveScript(Int32 scriptId);
@@ -79,6 +89,7 @@ namespace Mesen.GUI
 		[DllImport(DllPath)] public static extern void ClearLabels();
 
 		[DllImport(DllPath)] public static extern void SetBreakpoints([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)]InteropBreakpoint[] breakpoints, UInt32 length);
+		[DllImport(DllPath)] public static extern void GetBreakpoints(CpuType cpuType, [In, Out] Breakpoint[] breakpoints, ref Int32 execs, ref Int32 reads, ref Int32 writes);
 
 		[DllImport(DllPath)] public static extern void SaveRomToDisk([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8Marshaler))]string filename, [MarshalAs(UnmanagedType.I1)]bool saveAsIps, CdlStripOption cdlStripOption);
 
