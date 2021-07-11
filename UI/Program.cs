@@ -115,6 +115,8 @@ namespace Mesen.GUI
 					return;
 				}
 
+				WebAPI.Host.Start();
+
 				using(SingleInstance singleInstance = new SingleInstance()) {
 					if(singleInstance.FirstInstance || !ConfigManager.Config.Preferences.SingleInstance) {
 						frmMain frmMain = new frmMain(args);
