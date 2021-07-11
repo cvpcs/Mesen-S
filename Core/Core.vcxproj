@@ -108,6 +108,7 @@
     <ClInclude Include="GbTimer.h" />
     <ClInclude Include="GbTypes.h" />
     <ClInclude Include="GbWaveChannel.h" />
+    <ClInclude Include="HistoryViewer.h" />
     <ClInclude Include="IAssembler.h" />
     <ClInclude Include="NecDspDebugger.h" />
     <ClInclude Include="ForceDisconnectMessage.h" />
@@ -314,6 +315,7 @@
     <ClCompile Include="GbSquareChannel.cpp" />
     <ClCompile Include="GbTimer.cpp" />
     <ClCompile Include="GbWaveChannel.cpp" />
+    <ClCompile Include="HistoryViewer.cpp" />
     <ClCompile Include="NecDspDebugger.cpp" />
     <ClCompile Include="EmuSettings.cpp" />
     <ClCompile Include="EventManager.cpp" />

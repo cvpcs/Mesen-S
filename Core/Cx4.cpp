@@ -479,3 +479,36 @@ Cx4State Cx4::GetState()
 {
 	return _state;
 }
+
+void Cx4::SetReg(Cx4Register reg, uint32_t value)
+{
+	switch (reg)
+	{
+	case Cx4Register::Cx4Reg0: case Cx4Register::Cx4Reg1: case Cx4Register::Cx4Reg2: case Cx4Register::Cx4Reg3:
+	case Cx4Register::Cx4Reg4: case Cx4Register::Cx4Reg5: case Cx4Register::Cx4Reg6: case Cx4Register::Cx4Reg7:
+	case Cx4Register::Cx4Reg8: case Cx4Register::Cx4Reg9: case Cx4Register::Cx4Reg10: case Cx4Register::Cx4Reg11:
+	case Cx4Register::Cx4Reg12: case Cx4Register::Cx4Reg13: case Cx4Register::Cx4Reg14: case Cx4Register::Cx4Reg15:
+		_state.Regs[(static_cast<int>(reg) - static_cast<int>(Cx4Register::Cx4Reg0)) & 0x0F] = value & 0xFFFFFF; // 24-bit
+		break;
+	case Cx4Register::Cx4RegPB:
+	{
+		_state.PB = value & 0xFFFF;
+	} break;
+	case Cx4Register::Cx4RegPC:
+	{
+		_state.PC = value & 0xFF;
+	} break;
+	case Cx4Register::Cx4RegA:
+	{
+		_state.A = value & 0xFFFFFF; // 24-bit
+	} break;
+	case Cx4Register::Cx4RegP:
+	{
+		_state.P = value & 0xFFFF;
+	} break;
+	case Cx4Register::Cx4RegSP:
+	{
+		_state.SP = value & 0xFF;
+	} break;
+	}
+}

@@ -17,6 +17,7 @@ namespace Mesen.GUI.Forms
 	public class EntityBinder
 	{
 		private Dictionary<string, object> _bindings = new Dictionary<string, object>();
+		private Dictionary<string, EventHandler> _bindedHandlers = new Dictionary<string, EventHandler>();
 		private Dictionary<string, eNumberFormat> _fieldFormat = new Dictionary<string, eNumberFormat>();
 		private Dictionary<string, FieldInfoWrapper> _fieldInfo = null;
 
@@ -29,7 +30,7 @@ namespace Mesen.GUI.Forms
 
 		public bool Updating { get; private set; }
 
-		public void AddBinding(string fieldName, object bindedField, eNumberFormat format = eNumberFormat.Default)
+		public void AddBinding(string fieldName, object bindedField, eNumberFormat format = eNumberFormat.Default, EventHandler onEditHandler = null)
 		{
 			if(BindedType == null) {
 				throw new Exception("Need to override BindedType to use bindings");
@@ -54,6 +55,43 @@ namespace Mesen.GUI.Forms
 					BaseConfigForm.InitializeComboBox(((ComboBox)bindedField), fieldType);
 				}
 				_bindings[fieldName] = bindedField;
+				_bindedHandlers[fieldName] = onEditHandler;
+
+				if(bindedField is TextBox) {
+					((TextBox)bindedField).Leave += onEditHandler;
+				} else if(bindedField is ctrlPathSelection) {
+					((ctrlPathSelection)bindedField).Leave += onEditHandler;
+				} else if(bindedField is CheckBox) {
+					((CheckBox)bindedField).CheckedChanged += onEditHandler;
+				} else if(bindedField is ToolStripMenuItem) {
+					((ToolStripMenuItem)bindedField).CheckedChanged += onEditHandler;
+				} else if(bindedField is ctrlRiskyOption) {
+					((ctrlRiskyOption)bindedField).Click += onEditHandler;
+				} else if(bindedField is RadioButton) {
+					((RadioButton)bindedField).CheckedChanged += onEditHandler;
+				} else if(bindedField is PictureBox) {
+					((PictureBox)bindedField).BackColorChanged += onEditHandler;
+				} else if(bindedField is Panel) {
+					FieldInfoWrapper field = _fieldInfo[fieldName];
+					object value = field.GetValue(this.Entity);
+					RadioButton radio = ((Panel)bindedField).Controls.OfType<RadioButton>().FirstOrDefault(r => r.Tag.Equals(value));
+					if(radio != null) {
+						radio.CheckedChanged += onEditHandler;
+					} else {
+						throw new Exception("No radio button matching value found");
+					}
+				} else if(bindedField is ctrlTrackbar) {
+					((ctrlTrackbar)bindedField).ValueChanged += onEditHandler;
+				} else if(bindedField is ctrlHorizontalTrackbar) {
+					((ctrlHorizontalTrackbar)bindedField).ValueChanged += onEditHandler;
+				} else if(bindedField is TrackBar) {
+					((TrackBar)bindedField).ValueChanged += onEditHandler;
+				} else if(bindedField is MesenNumericUpDown) {
+					((MesenNumericUpDown)bindedField).ValueChanged += onEditHandler;
+				} else if(bindedField is ComboBox) {
+					((ComboBox)bindedField).SelectedIndexChanged += onEditHandler;
+				}
+
 				_fieldFormat[fieldName] = format;
 			} else {
 				throw new Exception("Invalid field name");

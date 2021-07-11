@@ -24,4 +24,6 @@ struct DmaChannelConfig
 	bool HdmaFinished;
 
 	bool UnusedFlag;
+
+	uint8_t UnusedByte; // 43xB and 43xF
 };

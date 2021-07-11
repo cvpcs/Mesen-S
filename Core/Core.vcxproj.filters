@@ -602,6 +602,9 @@
     <ClInclude Include="GbBootRom.h">
       <Filter>GB</Filter>
     </ClInclude>
+    <ClInclude Include="HistoryViewer.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -964,6 +967,9 @@
     </ClCompile>
     <ClCompile Include="SuperGameboy.cpp">
       <Filter>SNES\Coprocessors\SuperGameboy</Filter>
+    </ClCompile>
+    <ClCompile Include="HistoryViewer.cpp">
+      <Filter>Misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

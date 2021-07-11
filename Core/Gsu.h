@@ -170,4 +170,6 @@ public:
 	MemoryMappings* GetMemoryMappings();
 	uint8_t* DebugGetWorkRam();
 	uint32_t DebugGetWorkRamSize();
+
+	void SetReg(GsuRegister reg, uint16_t value);
 };

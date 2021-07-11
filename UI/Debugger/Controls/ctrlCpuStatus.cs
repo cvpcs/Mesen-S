@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Mesen.GUI.Controls;
 using Mesen.GUI.Forms;
+using System.Globalization;
 
 namespace Mesen.GUI.Debugger.Controls
 {
@@ -25,15 +26,24 @@ namespace Mesen.GUI.Debugger.Controls
 			}
 
 			_cpuBinder.Entity = new CpuState();
-			_cpuBinder.AddBinding(nameof(CpuState.A), txtA);
-			_cpuBinder.AddBinding(nameof(CpuState.X), txtX);
-			_cpuBinder.AddBinding(nameof(CpuState.Y), txtY);
-			_cpuBinder.AddBinding(nameof(CpuState.D), txtD);
-			_cpuBinder.AddBinding(nameof(CpuState.DBR), txtDB);
-			_cpuBinder.AddBinding(nameof(CpuState.SP), txtS);
-			_cpuBinder.AddBinding(nameof(CpuState.PS), txtP);
+			_cpuBinder.AddBinding(nameof(CpuState.A), txtA, onEditHandler: (s, e) => { DebugApi.SetCpuRegister(CpuRegister.CpuRegA, UInt16.Parse(txtA.Text, NumberStyles.HexNumber)); });
+			_cpuBinder.AddBinding(nameof(CpuState.X), txtX, onEditHandler: (s, e) => { DebugApi.SetCpuRegister(CpuRegister.CpuRegX, UInt16.Parse(txtX.Text, NumberStyles.HexNumber)); });
+			_cpuBinder.AddBinding(nameof(CpuState.Y), txtY, onEditHandler: (s, e) => { DebugApi.SetCpuRegister(CpuRegister.CpuRegY, UInt16.Parse(txtY.Text, NumberStyles.HexNumber)); });
+			_cpuBinder.AddBinding(nameof(CpuState.D), txtD, onEditHandler: (s, e) => { DebugApi.SetCpuRegister(CpuRegister.CpuRegD, UInt16.Parse(txtD.Text, NumberStyles.HexNumber)); });
+			_cpuBinder.AddBinding(nameof(CpuState.DBR), txtDB, onEditHandler: (s, e) => { DebugApi.SetCpuRegister(CpuRegister.CpuRegDBR, UInt16.Parse(txtDB.Text, NumberStyles.HexNumber)); });
+			_cpuBinder.AddBinding(nameof(CpuState.SP), txtS, onEditHandler: (s, e) => { DebugApi.SetCpuRegister(CpuRegister.CpuRegSP, UInt16.Parse(txtS.Text, NumberStyles.HexNumber)); });
+			_cpuBinder.AddBinding(nameof(CpuState.PS), txtP, onEditHandler: (s, e) => { DebugApi.SetCpuRegister(CpuRegister.CpuRegPS, UInt16.Parse(txtP.Text, NumberStyles.HexNumber)); });
 
-			_cpuBinder.AddBinding(nameof(CpuState.NmiFlag), chkNmi);
+			_cpuBinder.AddBinding(nameof(CpuState.NmiFlag), chkNmi, onEditHandler: (s, e) => { DebugApi.SetCpuRegister(CpuRegister.CpuFlagNmi, (UInt16)(chkNmi.Checked ? 1 : 0)); });
+
+			chkIndex.CheckedChanged += (s, e) => { DebugApi.SetCpuProcFlag(ProcFlags.IndexMode8, chkIndex.Checked); };
+			chkCarry.CheckedChanged += (s, e) => { DebugApi.SetCpuProcFlag(ProcFlags.Carry, chkCarry.Checked); };
+			chkDecimal.CheckedChanged += (s, e) => { DebugApi.SetCpuProcFlag(ProcFlags.Decimal, chkDecimal.Checked); };
+			chkInterrupt.CheckedChanged += (s, e) => { DebugApi.SetCpuProcFlag(ProcFlags.IrqDisable, chkInterrupt.Checked); };
+			chkNegative.CheckedChanged += (s, e) => { DebugApi.SetCpuProcFlag(ProcFlags.Negative, chkNegative.Checked); };
+			chkOverflow.CheckedChanged += (s, e) => { DebugApi.SetCpuProcFlag(ProcFlags.Overflow, chkOverflow.Checked); };
+			chkMemory.CheckedChanged += (s, e) => { DebugApi.SetCpuProcFlag(ProcFlags.MemoryMode8, chkMemory.Checked); };
+			chkZero.CheckedChanged += (s, e) => { DebugApi.SetCpuProcFlag(ProcFlags.Zero, chkZero.Checked); };
 		}
 
 		public void UpdateStatus(CpuState state)

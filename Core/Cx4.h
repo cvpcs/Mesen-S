@@ -129,4 +129,6 @@ public:
 	uint8_t* DebugGetDataRam();
 	uint32_t DebugGetDataRamSize();
 	Cx4State GetState();
+
+	void SetReg(Cx4Register reg, uint32_t value);
 };

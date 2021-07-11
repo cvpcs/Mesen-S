@@ -862,6 +862,7 @@
 			<Value ID="SnesMouse">SNES Mouse</Value>
 			<Value ID="SuperScope">Super Scope</Value>
 			<Value ID="Multitap">Super Multitap</Value>
+			<Value ID="SnesMouseButtonsOnly">SNES Mouse (buttons only)</Value>
 		</Enum>
 		<Enum ID="VideoAspectRatio">
 			<Value ID="NoStretching">Default (No Stretching)</Value>

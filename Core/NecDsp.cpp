@@ -586,3 +586,82 @@ void NecDsp::Serialize(Serializer &s)
 	s.StreamArray<uint16_t>(_stack, _stackSize);
 }
 
+void NecDsp::SetReg(NecDspRegister reg, uint16_t value)
+{
+	switch (reg)
+	{
+	case NecDspRegister::NecDspRegA:
+	{
+		_state.A = value;
+	} break;
+	case NecDspRegister::NecDspRegFlagsA:
+	{
+		_state.FlagsA.SetFlags(value & 0xFF);
+	} break;
+	case NecDspRegister::NecDspRegB:
+	{
+		_state.B = value;
+	} break;
+	case NecDspRegister::NecDspRegFlagsB:
+	{
+		_state.FlagsB.SetFlags(value & 0xFF);
+	} break;
+	case NecDspRegister::NecDspRegTR:
+	{
+		_state.TR = value;
+	} break;
+	case NecDspRegister::NecDspRegTRB:
+	{
+		_state.TRB = value;
+	} break;
+	case NecDspRegister::NecDspRegPC:
+	{
+		_state.PC = value;
+	} break;
+	case NecDspRegister::NecDspRegRP:
+	{
+		_state.RP = value;
+	} break;
+	case NecDspRegister::NecDspRegDP:
+	{
+		_state.DP = value;
+	} break;
+	case NecDspRegister::NecDspRegDR:
+	{
+		_state.DR = value;
+	} break;
+	case NecDspRegister::NecDspRegSR:
+	{
+		_state.SR = value;
+	} break;
+	case NecDspRegister::NecDspRegK:
+	{
+		_state.K = value;
+	} break;
+	case NecDspRegister::NecDspRegL:
+	{
+		_state.L = value;
+	} break;
+	case NecDspRegister::NecDspRegM:
+	{
+		_state.M = value;
+	} break;
+	case NecDspRegister::NecDspRegN:
+	{
+		_state.N = value;
+	} break;
+	case NecDspRegister::NecDspRegSerialOut:
+	{
+		_state.SerialOut = value;
+	} break;
+	case NecDspRegister::NecDspRegSerialIn:
+	{
+		_state.SerialIn = value;
+	} break;
+	case NecDspRegister::NecDspRegSP:
+	{
+		_state.SP = value & 0xFF;
+	} break;
+	}
+}
+

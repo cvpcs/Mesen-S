@@ -220,6 +220,10 @@ namespace Mesen.GUI.Debugger.Controls
 			int start = _manager.Provider.GetLineAddress(firstLineOfSelection);
 			int end = _manager.Provider.GetLineAddress(firstLineAfterSelection) - 1;
 
+			if (firstLineOfSelection == firstLineAfterSelection) {
+				end = start;
+			}
+
 			if(start >= 0 && end >= 0) {
 				return new SelectedAddressRange() {
 					Start = new AddressInfo() { Address = start, Type = _manager.RelativeMemoryType },

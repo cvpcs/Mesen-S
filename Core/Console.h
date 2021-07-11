@@ -4,6 +4,7 @@
 #include "DebugTypes.h"
 #include "Debugger.h"
 #include "ConsoleLock.h"
+#include "HistoryViewer.h"
 #include "../Utilities/Timer.h"
 #include "../Utilities/VirtualFile.h"
 #include "../Utilities/SimpleLock.h"
@@ -66,6 +67,7 @@ private:
 	shared_ptr<EmuSettings> _settings;
 	shared_ptr<SaveStateManager> _saveStateManager;
 	shared_ptr<RewindManager> _rewindManager;
+	shared_ptr<HistoryViewer> _historyViewer;
 	shared_ptr<CheatManager> _cheatManager;
 	shared_ptr<MovieManager> _movieManager;
 	shared_ptr<SpcHud> _spcHud;
@@ -163,6 +165,7 @@ public:
 	shared_ptr<ControlManager> GetControlManager();
 	shared_ptr<DmaController> GetDmaController();
 	shared_ptr<Msu1> GetMsu1();
+	HistoryViewer* GetHistoryViewer();
 
 	shared_ptr<Debugger> GetDebugger(bool autoStart = true);
 	void StopDebugger();
@@ -175,6 +178,8 @@ public:
 
 	uint32_t GetFrameCount();	
 	double GetFps();
+
+	void CopyRewindData(shared_ptr<Console> sourceConsole);
 
 	template<CpuType type> __forceinline void ProcessMemoryRead(uint32_t addr, uint8_t value, MemoryOperationType opType)
 	{

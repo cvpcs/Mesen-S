@@ -9,6 +9,16 @@ struct NecDspAccFlags
 	bool Overflow1;
 	bool Sign0;
 	bool Sign1;
+
+	void SetFlags(uint8_t flags)
+	{
+		Carry = flags & (1 << 0);
+		Zero = flags & (1 << 1);
+		Overflow0 = flags & (1 << 2);
+		Overflow1 = flags & (1 << 3);
+		Sign0 = flags & (1 << 4);
+		Sign1 = flags & (1 << 5);
+	}
 };
 
 namespace NecDspStatusFlags

@@ -651,3 +651,33 @@ uint32_t Gsu::DebugGetWorkRamSize()
 {
 	return _gsuRamSize;
 }
+
+void Gsu::SetReg(GsuRegister reg, uint16_t value)
+{
+	switch (reg)
+	{
+	case GsuRegister::GsuReg0:
+	case GsuRegister::GsuReg1:
+	case GsuRegister::GsuReg2:
+	case GsuRegister::GsuReg3:
+	case GsuRegister::GsuReg4:
+	case GsuRegister::GsuReg5:
+	case GsuRegister::GsuReg6:
+	case GsuRegister::GsuReg7:
+	case GsuRegister::GsuReg8:
+	case GsuRegister::GsuReg9:
+	case GsuRegister::GsuRegA:
+	case GsuRegister::GsuRegB:
+	case GsuRegister::GsuRegC:
+	case GsuRegister::GsuRegD:
+	case GsuRegister::GsuRegE:
+	case GsuRegister::GsuRegF:
+	{
+		_state.R[static_cast<int>(reg) & 0xF] = value;
+	} break;
+	case GsuRegister::GsuRegSFR:
+	{
+		_state.SFR.SetFlags(value);
+	} break;
+	}
+}

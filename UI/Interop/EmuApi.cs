@@ -13,8 +13,15 @@ using Mesen.GUI.Forms;
 
 namespace Mesen.GUI
 {
+
 	public class EmuApi
 	{
+		public enum ConsoleId
+		{
+			Main = 0,
+			HistoryViewer = 1
+		}
+
 		private const string DllPath = "MesenSCore.dll";
 		[DllImport(DllPath)] [return: MarshalAs(UnmanagedType.I1)] public static extern bool TestDll();
 		[DllImport(DllPath)] public static extern void InitDll();
@@ -29,6 +36,9 @@ namespace Mesen.GUI
 			return new Version((int)major, (int)minor, (int)revision);
 		}
 
+		[DllImport(DllPath)] public static extern void SetMasterVolume(double volume, ConsoleId consoleId);
+		[DllImport(DllPath)] public static extern void SetVideoScale(double scale, ConsoleId consoleId);
+
 		[DllImport(DllPath)] public static extern IntPtr RegisterNotificationCallback(NotificationListener.NotificationCallback callback);
 		[DllImport(DllPath)] public static extern void UnregisterNotificationCallback(IntPtr notificationListener);
 
@@ -42,9 +52,9 @@ namespace Mesen.GUI
 		[DllImport(DllPath)] public static extern void PowerCycle();
 		[DllImport(DllPath)] public static extern void ReloadRom();
 
-		[DllImport(DllPath)] public static extern void Pause();
-		[DllImport(DllPath)] public static extern void Resume();
-		[DllImport(DllPath)] [return: MarshalAs(UnmanagedType.I1)] public static extern bool IsPaused();
+		[DllImport(DllPath)] public static extern void Pause(ConsoleId consoleId = ConsoleId.Main);
+		[DllImport(DllPath)] public static extern void Resume(ConsoleId consoleId = ConsoleId.Main);
+		[DllImport(DllPath)] [return: MarshalAs(UnmanagedType.I1)] public static extern bool IsPaused(ConsoleId consoleId = ConsoleId.Main);
 
 		[DllImport(DllPath)] public static extern void TakeScreenshot();
 
@@ -74,7 +84,7 @@ namespace Mesen.GUI
 		[DllImport(DllPath)] public static extern void SetDisplayLanguage(Language lang);
 		[DllImport(DllPath)] public static extern void SetFullscreenMode([MarshalAs(UnmanagedType.I1)]bool fullscreen, IntPtr windowHandle, UInt32 monitorWidth, UInt32 monitorHeight);
 
-		[DllImport(DllPath)] public static extern ScreenSize GetScreenSize([MarshalAs(UnmanagedType.I1)]bool ignoreScale);
+		[DllImport(DllPath)] public static extern ScreenSize GetScreenSize([MarshalAs(UnmanagedType.I1)]bool ignoreScale, ConsoleId consoleId = ConsoleId.Main);
 
 		[DllImport(DllPath, EntryPoint = "GetLog")] private static extern IntPtr GetLogWrapper();
 		public static string GetLog() { return Utf8Marshaler.PtrToStringUtf8(EmuApi.GetLogWrapper()).Replace("\n", Environment.NewLine); }

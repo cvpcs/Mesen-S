@@ -61,13 +61,25 @@ extern "C"
 	DllExport const char* GetExecutionTrace(uint32_t lineCount) { return GetDebugger()->GetTraceLogger()->GetExecutionTrace(lineCount); }
 
 	DllExport void __stdcall SetBreakpoints(Breakpoint breakpoints[], uint32_t length) { GetDebugger()->SetBreakpoints(breakpoints, length); }
+	DllExport void __stdcall GetBreakpoints(CpuType cpuType, Breakpoint* breakpoints, int& execs, int& reads, int& writes) { GetDebugger()->GetBreakpoints(cpuType, breakpoints, execs, reads, writes); }
+
 	DllExport int32_t __stdcall EvaluateExpression(char* expression, CpuType cpuType, EvalResultType *resultType, bool useCache) { return GetDebugger()->EvaluateExpression(expression, cpuType, *resultType, useCache); }
 	DllExport void __stdcall GetCallstack(CpuType cpuType, StackFrameInfo *callstackArray, uint32_t &callstackSize) { GetDebugger()->GetCallstackManager(cpuType)->GetCallstack(callstackArray, callstackSize); }
 	DllExport void __stdcall GetProfilerData(CpuType cpuType, ProfiledFunction* profilerData, uint32_t& functionCount) { GetDebugger()->GetCallstackManager(cpuType)->GetProfiler()->GetProfilerData(profilerData, functionCount); }
 	DllExport void __stdcall ResetProfiler(CpuType cpuType) { GetDebugger()->GetCallstackManager(cpuType)->GetProfiler()->Reset(); }
 
 	DllExport void __stdcall GetState(DebugState& state) { GetDebugger()->GetState(state, false); }
-	
+	DllExport bool __stdcall GetCpuProcFlag(ProcFlags::ProcFlags flag) { return GetDebugger()->GetCpuProcFlag(flag); }
+
+	DllExport void __stdcall SetCpuRegister(CpuRegister reg, uint16_t value) { GetDebugger()->SetCpuRegister(reg, value); }
+	DllExport void __stdcall SetCpuProcFlag(ProcFlags::ProcFlags flag, bool set) { GetDebugger()->SetCpuProcFlag(flag, set); };
+	DllExport void __stdcall SetSpcRegister(SpcRegister reg, uint16_t value) { GetDebugger()->SetSpcRegister(reg, value); }
+	DllExport void __stdcall SetNecDspRegister(NecDspRegister reg, uint16_t value) { GetDebugger()->SetNecDspRegister(reg, value); }
+	DllExport void __stdcall SetSa1Register(CpuRegister reg, uint16_t value) { GetDebugger()->SetSa1Register(reg, value); }
+	DllExport void __stdcall SetGsuRegister(GsuRegister reg, uint16_t value) { GetDebugger()->SetGsuRegister(reg, value); }
+	DllExport void __stdcall SetCx4Register(Cx4Register reg, uint32_t value) { GetDebugger()->SetCx4Register(reg, value); }
+	DllExport void __stdcall SetGameboyRegister(GbRegister reg, uint16_t value) { GetDebugger()->SetGameboyRegister(reg, value); }
+
 	DllExport const char* __stdcall GetDebuggerLog()
 	{
 		_logString = GetDebugger()->GetLog();

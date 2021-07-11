@@ -90,6 +90,22 @@ enum EvalValues : int64_t
 	RomBR = 20000000141,
 	RamBR = 20000000142,
 
+	RegPS_Carry = 20000000150,
+	RegPS_Zero = 20000000151,
+	RegPS_Interrupt = 20000000152,
+	RegPS_Decimal = 20000000153,
+	RegPS_8bitIndex = 20000000154,
+	RegPS_8bit = 20000000155,
+	RegPS_Overflow = 20000000156,
+	RegPS_Negative = 20000000157,
+	RegPS_16bitIndex = 20000000158,
+	RegPS_16bit = 20000000159,
+
+	// SPC flags
+	RegPS_HalfCarry = 20000000153,
+	RegPS_Break = 20000000154,
+	RegPS_StackZeropage = 20000000155,
+
 	RegB = 20000000160,
 	RegC = 20000000161,
 	RegD = 20000000162,
@@ -151,7 +167,7 @@ private:
 	bool IsOperator(string token, int &precedence, bool unaryOperator);
 	EvalOperators GetOperator(string token, bool unaryOperator);
 	bool CheckSpecialTokens(string expression, size_t &pos, string &output, ExpressionData &data);
-	int64_t ProcessCpuSpcTokens(string token);
+	int64_t ProcessCpuSpcTokens(string token, bool spc);
 	int64_t ProcessSharedTokens(string token);
 	int64_t ProcessGsuTokens(string token);
 	int64_t ProcessGameboyTokens(string token);

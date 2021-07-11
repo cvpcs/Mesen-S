@@ -31,6 +31,8 @@ namespace Mesen.GUI.Config
 		public Size WindowSize;
 		public bool NeedInputReinit2 = true;
 		public DefaultKeyMappingType DefaultKeyMappings = DefaultKeyMappingType.Xbox | DefaultKeyMappingType.ArrowKeys;
+		public HistoryViewerConfig HistoryViewer;
+		public WatchWindowConfig WatchWindow;
 
 		public Configuration()
 		{
@@ -46,6 +48,8 @@ namespace Mesen.GUI.Config
 			MovieRecord = new MovieRecordConfig();
 			Cheats = new CheatWindowConfig();
 			Netplay = new NetplayConfig();
+			HistoryViewer = new HistoryViewerConfig();
+			WatchWindow = new WatchWindowConfig();
 		}
 
 		~Configuration()

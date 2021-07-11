@@ -1389,3 +1389,50 @@ void GbCpu::Serialize(Serializer& s)
 		_state.EiPending
 	);
 }
+
+void GbCpu::SetReg(GbRegister reg, uint16_t value)
+{
+	switch (reg)
+	{
+	case GbRegister::GbRegPC:
+	{
+		_state.PC = value;
+	} break;
+	case GbRegister::GbRegSP:
+	{
+		_state.SP = value;
+	} break;
+	case GbRegister::GbRegA:
+	{
+		_state.A = value & 0xFF;
+	} break;
+	case GbRegister::GbRegFlags:
+	{
+		_state.Flags = value & 0xFF;
+	} break;
+	case GbRegister::GbRegB:
+	{
+		_state.B = value & 0xFF;
+	} break;
+	case GbRegister::GbRegC:
+	{
+		_state.C = value & 0xFF;
+	} break;
+	case GbRegister::GbRegD:
+	{
+		_state.D = value & 0xFF;
+	} break;
+	case GbRegister::GbRegE:
+	{
+		_state.E = value & 0xFF;
+	} break;
+	case GbRegister::GbRegH:
+	{
+		_state.H = value & 0xFF;
+	} break;
+	case GbRegister::GbRegL:
+	{
+		_state.L = value & 0xFF;
+	} break;
+	}
+}

@@ -8,6 +8,7 @@
 #include "stdafx.h"
 #include "SpcTypes.h"
 #include "CpuTypes.h"
+#include "DebugTypes.h"
 #include "SpcTimer.h"
 #include "../Utilities/ISerializable.h"
 
@@ -316,6 +317,8 @@ public:
 	void LoadSpcFile(SpcFileData* spcData);
 
 	void Serialize(Serializer &s) override;
+
+	void SetReg(SpcRegister reg, uint16_t value);
 
 #ifdef DUMMYSPC
 private:

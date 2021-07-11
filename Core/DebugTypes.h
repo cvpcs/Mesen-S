@@ -284,3 +284,109 @@ enum class CpuType : uint8_t
 	Cx4,
 	Gameboy
 };
+
+enum class CpuRegister : uint8_t
+{
+	CpuRegA,
+	CpuRegX,
+	CpuRegY,
+	CpuRegSP,
+	CpuRegD,
+	CpuRegPC,
+	CpuRegK,
+	CpuRegDBR,
+	CpuRegPS,
+	CpuFlagNmi
+};
+
+enum class Cx4Register : uint8_t
+{
+	Cx4Reg0,
+	Cx4Reg1,
+	Cx4Reg2,
+	Cx4Reg3,
+	Cx4Reg4,
+	Cx4Reg5,
+	Cx4Reg6,
+	Cx4Reg7,
+	Cx4Reg8,
+	Cx4Reg9,
+	Cx4Reg10,
+	Cx4Reg11,
+	Cx4Reg12,
+	Cx4Reg13,
+	Cx4Reg14,
+	Cx4Reg15,
+	Cx4RegPB,
+	Cx4RegPC,
+	Cx4RegA,
+	Cx4RegP,
+	Cx4RegSP
+};
+
+enum class GbRegister : uint8_t
+{
+	GbRegPC,
+	GbRegSP,
+	GbRegA,
+	GbRegFlags,
+	GbRegB,
+	GbRegC,
+	GbRegD,
+	GbRegE,
+	GbRegH,
+	GbRegL
+};
+
+enum class GsuRegister : uint8_t
+{
+	GsuReg0,
+	GsuReg1,
+	GsuReg2,
+	GsuReg3,
+	GsuReg4,
+	GsuReg5,
+	GsuReg6,
+	GsuReg7,
+	GsuReg8,
+	GsuReg9,
+	GsuRegA,
+	GsuRegB,
+	GsuRegC,
+	GsuRegD,
+	GsuRegE,
+	GsuRegF,
+	GsuRegSFR
+};
+
+enum class NecDspRegister : uint8_t
+{
+	NecDspRegA,
+	NecDspRegFlagsA,
+	NecDspRegB,
+	NecDspRegFlagsB,
+	NecDspRegTR,
+	NecDspRegTRB,
+	NecDspRegPC,
+	NecDspRegRP,
+	NecDspRegDP,
+	NecDspRegDR,
+	NecDspRegSR,
+	NecDspRegK,
+	NecDspRegL,
+	NecDspRegM,
+	NecDspRegN,
+	NecDspRegSerialOut,
+	NecDspRegSerialIn,
+	NecDspRegSP
+};
+
+enum class SpcRegister : uint8_t
+{
+	SpcRegPC,
+	SpcRegA,
+	SpcRegX,
+	SpcRegY,
+	SpcRegSP,
+	SpcRegPS
+};

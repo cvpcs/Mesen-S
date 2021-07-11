@@ -178,6 +178,45 @@ bool MovieRecorder::Stop()
 	return false;
 }
 
+bool MovieRecorder::CreateMovie(string movieFile, std::deque<RewindData>& data, uint32_t startPosition, uint32_t endPosition)
+{
+	_filename = movieFile;
+	_writer.reset(new ZipWriter());
+
+	if (startPosition < data.size() && endPosition <= data.size() && _writer->Initialize(_filename)) {
+		vector<shared_ptr<BaseControlDevice>> devices = _console->GetControlManager()->GetControlDevices();
+
+//		if (startPosition > 0 || _console->GetRomInfo().Header.SramSize || _console->GetSettings()->GetRamPowerOnState() == RamPowerOnState::Random) { // TODO?
+			//Create a movie from a savestate if we don't start from the beginning (or if the game has save ram, or if the power on ram state is random)
+			_hasSaveState = true;
+			_saveStateData = stringstream();
+			_console->GetSaveStateManager()->GetSaveStateHeader(_saveStateData);
+			data[startPosition].GetStateData(_saveStateData);
+//		}
+
+		_inputData = stringstream();
+
+		for (uint32_t i = startPosition; i < endPosition; i++) {
+			RewindData rewindData = data[i];
+			for (uint32_t i = 0; i < 60; i++) {
+				for (shared_ptr<BaseControlDevice>& device : devices) {
+					uint8_t port = device->GetPort();
+					if (i < rewindData.InputLogs[port].size()) {
+						device->SetRawState(rewindData.InputLogs[port][i]);
+						_inputData << ("|" + device->GetTextState());
+					}
+				}
+				_inputData << "\n";
+			}
+		}
+
+		//Write the movie file
+		return Stop();
+	}
+
+	return false;
+}
+
 void MovieRecorder::RecordInput(vector<shared_ptr<BaseControlDevice>> devices)
 {
 	for(shared_ptr<BaseControlDevice> &device : devices) {
@@ -202,41 +241,3 @@ void MovieRecorder::ProcessNotification(ConsoleNotificationType type, void *para
 		_console->GetControlManager()->RegisterInputRecorder(this);
 	}
 }
-/*
-bool MovieRecorder::CreateMovie(string movieFile, std::deque<RewindData> &data, uint32_t startPosition, uint32_t endPosition)
-{
-	_filename = movieFile;
-	_writer.reset(new ZipWriter());
-	if(startPosition < data.size() && endPosition <= data.size() && _writer->Initialize(_filename)) {
-		vector<shared_ptr<BaseControlDevice>> devices = _console->GetControlManager()->GetControlDevices();
-		
-		if(startPosition > 0 || _console->GetRomInfo().HasBattery || _console->GetSettings()->GetRamPowerOnState() == RamPowerOnState::Random) {
-			//Create a movie from a savestate if we don't start from the beginning (or if the game has save ram, or if the power on ram state is random)
-			_hasSaveState = true;
-			_saveStateData = stringstream();
-			_console->GetSaveStateManager()->GetSaveStateHeader(_saveStateData);
-			data[startPosition].GetStateData(_saveStateData);
-		}
-
-		_inputData = stringstream();
-
-		for(uint32_t i = startPosition; i < endPosition; i++) {
-			RewindData rewindData = data[i];
-			for(uint32_t i = 0; i < 30; i++) {
-				for(shared_ptr<BaseControlDevice> &device : devices) {
-					uint8_t port = device->GetPort();
-					if(i < rewindData.InputLogs[port].size()) {
-						device->SetRawState(rewindData.InputLogs[port][i]);
-						_inputData << ("|" + device->GetTextState());
-					}
-				}
-				_inputData << "\n";
-			}
-		}
-
-		//Write the movie file
-		return Stop();
-	}
-	return false;
-}
-*/

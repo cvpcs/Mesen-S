@@ -30,6 +30,7 @@ namespace Mesen.GUI.Config
 		public ProfilerConfig Profiler = new ProfilerConfig();
 		public AssemblerConfig Assembler = new AssemblerConfig();
 		public DebugLogConfig DebugLog = new DebugLogConfig();
+		public WatchWindowConfig WatchWindow = new WatchWindowConfig();
 
 		public DebugInfo()
 		{		

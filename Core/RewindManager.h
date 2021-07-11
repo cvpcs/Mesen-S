@@ -5,6 +5,7 @@
 #include "RewindData.h"
 #include "IInputProvider.h"
 #include "IInputRecorder.h"
+#include "HistoryViewer.h"
 
 class Console;
 class EmuSettings;
@@ -79,4 +80,5 @@ public:
 
 	void SendFrame(void *frameBuffer, uint32_t width, uint32_t height, bool forRewind);
 	bool SendAudio(int16_t *soundBuffer, uint32_t sampleCount);
+	void CopyHistory(shared_ptr<HistoryViewer> destHistoryViewer);
 };

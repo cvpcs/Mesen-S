@@ -7,6 +7,7 @@
 
 #include "stdafx.h"
 #include "CpuTypes.h"
+#include "DebugTypes.h"
 #include "../Utilities/ISerializable.h"
 
 class MemoryMappings;
@@ -330,6 +331,7 @@ public:
 	void Exec();
 
 	CpuState GetState();
+	bool GetCpuProcFlag(ProcFlags::ProcFlags flag);
 	uint64_t GetCycleCount();
 
 	template<uint64_t value>
@@ -344,6 +346,9 @@ public:
 
 	// Inherited via ISerializable
 	void Serialize(Serializer &s) override;
+
+	void SetReg(CpuRegister reg, uint16_t value);
+	void SetCpuProcFlag(ProcFlags::ProcFlags flag, bool set);
 
 #ifdef DUMMYCPU
 private:
@@ -369,6 +374,8 @@ public:
 	void GetReadInfo(uint32_t index, uint32_t &addr, uint8_t &value);
 #endif
 };
+
+void SetReg(CpuRegister reg, uint16_t value);
 
 template<uint64_t count>
 void Cpu::IncreaseCycleCount()
