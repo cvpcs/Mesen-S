@@ -7,10 +7,11 @@
 Msu1* Msu1::Init(VirtualFile romFile, Spc* spc)
 {
 	string romFolder = romFile.GetFolderPath();
+	string msu1Folder = FolderUtilities::CombinePath(romFolder, "msu1");
 	string romName = FolderUtilities::GetFilename(romFile.GetFileName(), false);
-	if(ifstream(FolderUtilities::CombinePath(romFolder, romName + ".msu"))) {
-		return new Msu1(romFile, spc);
-	} else if(ifstream(FolderUtilities::CombinePath(romFolder, "msu1.rom"))) {
+	if(ifstream(FolderUtilities::CombinePath(romFolder, romName + ".msu")) ||
+		ifstream(FolderUtilities::CombinePath(romFolder, "msu1.rom")) ||
+		ifstream(FolderUtilities::CombinePath(msu1Folder, "msu1.rom"))) {
 		return new Msu1(romFile, spc);
 	} else {
 		return nullptr;
@@ -27,7 +28,12 @@ Msu1::Msu1(VirtualFile romFile, Spc* spc)
 		_trackPath = FolderUtilities::CombinePath(_romFolder, _romName);
 	} else {
 		_dataFile.open(FolderUtilities::CombinePath(_romFolder, "msu1.rom"), ios::binary);
-		_trackPath = FolderUtilities::CombinePath(_romFolder, "track");
+		if (_dataFile) {
+			_trackPath = FolderUtilities::CombinePath(_romFolder, "track");
+		} else {
+			string msu1Folder = FolderUtilities::CombinePath(_romFolder, "msu1");
+			_trackPath = FolderUtilities::CombinePath(msu1Folder, "track");
+		}
 	}
 
 	if(_dataFile) {
