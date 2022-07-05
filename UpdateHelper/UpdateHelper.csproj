@@ -6,7 +6,7 @@
 		<OutputType>WinExe</OutputType>
 		<RootNamespace>MesenUpdater</RootNamespace>
 		<AssemblyName>MesenUpdater</AssemblyName>
-		<TargetFramework>net45</TargetFramework>
+		<TargetFramework>net472</TargetFramework>
 		<Platforms>AnyCPU;x64;x86</Platforms>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<OutputPath>..\bin\$(Platform)\$(Configuration)</OutputPath>

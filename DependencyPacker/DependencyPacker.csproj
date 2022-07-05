@@ -6,7 +6,7 @@
 		<OutputType>Exe</OutputType>
 		<RootNamespace>DependencyPacker</RootNamespace>
 		<AssemblyName>DependencyPacker</AssemblyName>
-		<TargetFramework>net45</TargetFramework>
+		<TargetFramework>net472</TargetFramework>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<OutputPath>..\bin\$(Platform)\$(Configuration)</OutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>

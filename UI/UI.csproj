@@ -6,7 +6,6 @@
 		<OutputType>WinExe</OutputType>
 		<RootNamespace>Mesen.GUI</RootNamespace>
 		<AssemblyName>Mesen-S</AssemblyName>
-		<TargetFramework>net6.0-windows</TargetFramework>
 		<Platforms>AnyCPU;x64;x86;ARM64</Platforms>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<ApplicationRevision>0</ApplicationRevision>
@@ -17,12 +16,25 @@
 		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 		<UseWindowsForms>true</UseWindowsForms>
 		<Deterministic>false</Deterministic>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Platform)' != 'ARM64' ">
+		<TargetFramework>net472</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Platform)' == 'ARM64' ">
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Platforms>AnyCPU;x64;x86;ARM64</Platforms>
 		<RuntimeIdentifier>win10-$(Platform.ToLower())</RuntimeIdentifier>
 		<!--<RuntimeIdentifier>win10-arm64</RuntimeIdentifier>-->
 		<PublishSingleFile>true</PublishSingleFile>
 		<SelfContained>false</SelfContained>
 		<PublishReadyToRun>true</PublishReadyToRun>
 	</PropertyGroup>
+
+	<ItemGroup Condition=" '$(Platform)' != 'ARM64' ">
+		<Reference Include="System.IO.Compression" />
+		<Reference Include="Microsoft.CSharp" />
+	</ItemGroup>
 
 	<Target Name="PublishOnBuild" AfterTargets="Build" Condition="'$(PublishSingleFile)' == 'true'">
 		<CallTarget Targets="Publish" />
