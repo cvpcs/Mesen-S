@@ -734,11 +734,13 @@ extern "C" {
 			switch(id) {
 				case RETRO_MEMORY_SAVE_RAM: return cart->GetGameboy()->DebugGetMemory(SnesMemoryType::GbCartRam);
 				case RETRO_MEMORY_SYSTEM_RAM: return cart->GetGameboy()->DebugGetMemory(SnesMemoryType::GbWorkRam);
+				case RETRO_MEMORY_PROGRAM_ROM: return cart->GetGameboy()->DebugGetMemory(SnesMemoryType::GbPrgRom);
 			}
 		} else {
 			switch(id) {
 				case RETRO_MEMORY_SAVE_RAM: return cart->DebugGetSaveRam();
 				case RETRO_MEMORY_SYSTEM_RAM: return _console->GetMemoryManager()->DebugGetWorkRam();
+				case RETRO_MEMORY_PROGRAM_ROM: return cart->DebugGetPrgRom();
 			}
 		}
 		return nullptr;
@@ -751,11 +753,13 @@ extern "C" {
 			switch(id) {
 				case RETRO_MEMORY_SAVE_RAM: return cart->GetGameboy()->DebugGetMemorySize(SnesMemoryType::GbCartRam);
 				case RETRO_MEMORY_SYSTEM_RAM: return cart->GetGameboy()->DebugGetMemorySize(SnesMemoryType::GbWorkRam);
+				case RETRO_MEMORY_PROGRAM_ROM: return cart->GetGameboy()->DebugGetMemorySize(SnesMemoryType::GbPrgRom);
 			}
 		} else {
 			switch(id) {
-				case RETRO_MEMORY_SAVE_RAM: return cart->DebugGetSaveRamSize(); break;
+				case RETRO_MEMORY_SAVE_RAM: return cart->DebugGetSaveRamSize();
 				case RETRO_MEMORY_SYSTEM_RAM: return MemoryManager::WorkRamSize;
+				case RETRO_MEMORY_PROGRAM_ROM: return cart->DebugGetPrgRomSize();
 			}
 		}
 		return 0;
