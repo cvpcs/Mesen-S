@@ -7,34 +7,41 @@
 Msu1* Msu1::Init(VirtualFile romFile, Spc* spc)
 {
 	string romFolder = romFile.GetFolderPath();
-	string msu1Folder = FolderUtilities::CombinePath(romFolder, "msu1");
 	string romName = FolderUtilities::GetFilename(romFile.GetFileName(), false);
-	if(ifstream(FolderUtilities::CombinePath(romFolder, romName + ".msu")) ||
-		ifstream(FolderUtilities::CombinePath(romFolder, "msu1.rom")) ||
-		ifstream(FolderUtilities::CombinePath(msu1Folder, "msu1.rom"))) {
-		return new Msu1(romFile, spc);
+
+	// assume the MSU1 folder is the ROM folder
+	string msu1Folder = romFolder;
+	// if msu1.dir exists, read it and use its contents as the msu1 folder path
+	ifstream msu1DirFile(FolderUtilities::CombinePath(romFolder, "msu1.dir"));
+	if (msu1DirFile) {
+		std::ostringstream sbuf;
+		sbuf << msu1DirFile.rdbuf();
+		msu1Folder = sbuf.str();
+	}
+
+	// try to calculate data file and track path
+	string dataFilePath;
+	string trackPath;
+	if (ifstream(FolderUtilities::CombinePath(msu1Folder, romName + ".msu"))) {
+		dataFilePath = FolderUtilities::CombinePath(msu1Folder, romName + ".msu");
+		trackPath = FolderUtilities::CombinePath(msu1Folder, romName);
+	} else if (ifstream(FolderUtilities::CombinePath(msu1Folder, "msu1.rom"))) {
+		dataFilePath = FolderUtilities::CombinePath(msu1Folder, "msu1.rom");
+		trackPath = FolderUtilities::CombinePath(msu1Folder, "track");
+	}
+	
+	if (!dataFilePath.empty()) {
+		return new Msu1(dataFilePath, trackPath, spc);
 	} else {
 		return nullptr;
 	}
 }
 
-Msu1::Msu1(VirtualFile romFile, Spc* spc)
+Msu1::Msu1(string dataFilePath, string trackPath, Spc* spc)
 {
 	_spc = spc;
-	_romFolder = romFile.GetFolderPath();
-	_romName = FolderUtilities::GetFilename(romFile.GetFileName(), false);
-	_dataFile.open(FolderUtilities::CombinePath(_romFolder, _romName) + ".msu", ios::binary);
-	if(_dataFile) {
-		_trackPath = FolderUtilities::CombinePath(_romFolder, _romName);
-	} else {
-		_dataFile.open(FolderUtilities::CombinePath(_romFolder, "msu1.rom"), ios::binary);
-		if (_dataFile) {
-			_trackPath = FolderUtilities::CombinePath(_romFolder, "track");
-		} else {
-			string msu1Folder = FolderUtilities::CombinePath(_romFolder, "msu1");
-			_trackPath = FolderUtilities::CombinePath(msu1Folder, "track");
-		}
-	}
+	_dataFile.open(dataFilePath, ios::binary);
+	_trackPath = trackPath;
 
 	if(_dataFile) {
 		_dataFile.seekg(0, ios::end);

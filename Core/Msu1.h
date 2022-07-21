@@ -15,8 +15,6 @@ private:
 	uint16_t _trackSelect = 0;
 	uint32_t _tmpDataPointer = 0;
 	uint32_t _dataPointer = 0;
-	string _romName;
-	string _romFolder;
 	string _trackPath;
 
 	bool _repeat = false;
@@ -31,7 +29,7 @@ private:
 	void LoadTrack(uint32_t startOffset = 8);
 
 public:
-	Msu1(VirtualFile romFile, Spc* spc);
+	Msu1(string dataFilePath, string trackPath, Spc* spc);
 	
 	static Msu1* Init(VirtualFile romFile, Spc* spc);
 
